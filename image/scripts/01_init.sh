@@ -48,13 +48,13 @@ function init() {
 
     git clone https://github.com/seafileltd/portable-python-libevent.git
     
-    git clone git@github.com:seafileltd/ccnet-pro-server.git && cd ccnet-pro-server && git fetch origin 6.3-pro:6.3-pro && git checkout 6.3-pro && ./autogen.sh && ./configure --prefix=$SOURCE_PATH && make && make install && ldconfig && cd ..
+    git clone git@github.com:seafileltd/ccnet-pro-server.git && cd ccnet-pro-server && git fetch origin tags/$TAG:$TAG && git checkout $TAG && ./autogen.sh && ./configure --prefix=$SOURCE_PATH && make && make install && ldconfig && cd ..
 
     local_migrate
 
     ccnet-init -c $CONF_PATH -n zming -H 127.0.0.1
     
-    git clone git@github.com:seafileltd/seafile-pro-server.git && cd seafile-pro-server && git fetch origin 6.3-pro:6.3-pro && git checkout 6.3-pro && ./autogen.sh && ./configure --disable-fuse --prefix=$SOURCE_PATH && make && make install && ldconfig && cd ..
+    git clone git@github.com:seafileltd/seafile-pro-server.git && cd seafile-pro-server && git fetch origin tags/$TAG:$TAG && git checkout $TAG && ./autogen.sh && ./configure --disable-fuse --prefix=$SOURCE_PATH && make && make install && ldconfig && cd ..
 
     local_migrate
 
@@ -62,7 +62,7 @@ function init() {
 
     cd conf && echo -en "\n[Database]\nENGINE = mysql\nHOST = db\nPORT = 3306\nUSER = root\nPASSWD = db_dev\nDB = ccnet\nCONNECTION_CHARSET = utf8" >> ccnet.conf && echo -en "\n[database]\ntype = mysql\nhost = db\nport = 3306\nuser = root\npassword = db_dev\ndb_name = seafile\nconnection_charset = utf8" >> seafile-data/seafile.conf
 
-    cd /data/dev && git clone https://github.com/haiwen/seahub.git && cd seahub && git fetch origin 6.3:6.3 && git checkout 6.3
+    cd /data/dev && git clone https://github.com/haiwen/seahub.git && cd seahub && git fetch origin tags/$TAG:$TAG && git checkout $TAG
 
     cd $CONF_PATH && cat > seahub_settings.py <<EOF
 DEBUG = True
@@ -80,9 +80,9 @@ DATABASES = {
 }
 EOF
 
-    cd /data/dev &&  git clone git@github.com:seafileltd/seahub-extra.git && cd seahub-extra && git fetch origin 6.3:6.3 && git checkout 6.3
+    cd /data/dev &&  git clone git@github.com:seafileltd/seahub-extra.git && cd seahub-extra && git fetch origin tags/$TAG:$TAG && git checkout $TAG
 
-    cd /data/dev && git clone git@github.com:seafileltd/seafevents.git && cd seafevents && git fetch origin 6.3:6.3 && git checkout 6.3
+    cd /data/dev && git clone git@github.com:seafileltd/seafevents.git && cd seafevents && git fetch origin tags/$TAG:$TAG && git checkout $TAG
 
     cd $CONF_PATH && cat > seafevents.conf  <<EOF
 [DATABASE]
@@ -104,7 +104,7 @@ enabled = true
 enabled = true
 EOF
 
-    cd /data/dev && git clone git@github.com:seafileltd/seafes.git
+    cd /data/dev && git clone git@github.com:seafileltd/seafes.git && cd seafes && git fetch origin tags/$TAG:$TAG && git checkout $TAG
 }
 
 

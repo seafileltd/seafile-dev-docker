@@ -1,6 +1,6 @@
 FROM phusion/baseimage:0.10.1
 
-ENV UPDATE_AT=20180609 BRANCH=6.3 SOURCE_PATH=/data/migrate DATA_PATH=/data/dev LOG_PATH=/data/log CONF_PATH=/data/conf
+ENV UPDATE_AT=20180609 TAG=v6.3.0-pro BRANCH=6.3 SOURCE_PATH=/data/migrate DATA_PATH=/data/dev LOG_PATH=/data/log CONF_PATH=/data/conf
 
 RUN rm -rf /etc/my_init.d/*
 COPY scripts/01_init.sh scripts/02_aliass.sh /etc/my_init.d/
