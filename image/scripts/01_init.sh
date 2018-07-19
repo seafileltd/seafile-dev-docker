@@ -28,13 +28,13 @@ function init() {
 
     prepare_init
 
-    cd $DATA_PATH
+    #cd $DATA_PATH
     
-    wget https://launchpad.net/libmemcached/1.0/1.0.18/+download/libmemcached-1.0.18.tar.gz && tar xf libmemcached-1.0.18.tar.gz && cd libmemcached-1.0.18/ && ./configure --prefix=$SOURCE_PATH && make && make install && ldconfig && cd ..
+    #wget https://launchpad.net/libmemcached/1.0/1.0.18/+download/libmemcached-1.0.18.tar.gz && tar xf libmemcached-1.0.18.tar.gz && cd libmemcached-1.0.18/ && ./configure --prefix=$SOURCE_PATH && make && make install && ldconfig && cd ..
 
-    local_migrate
+    #local_migrate
     
-    git clone https://github.com/haiwen/seafobj.git
+    #git clone https://github.com/haiwen/seafobj.git
     
     git clone https://github.com/haiwen/libevhtp.git && cd libevhtp/ && cmake -DCMAKE_INSTALL_PREFIX:PATH=$SOURCE_PATH -DEVHTP_DISABLE_SSL=OFF -DEVHTP_BUILD_SHARED=ON . && make && make install && ldconfig && cd ..
 
@@ -48,13 +48,13 @@ function init() {
 
     git clone https://github.com/seafileltd/portable-python-libevent.git
     
-    git clone git@github.com:seafileltd/ccnet-pro-server.git && cd ccnet-pro-server && git fetch origin 6.3-pro:6.3-pro && git checkout 6.3-pro && ./autogen.sh && ./configure --prefix=$SOURCE_PATH && make && make install && ldconfig && cd ..
+    git clone https://github.com/haiwen/ccnet-server.git && cd ccnet-server && ./autogen.sh && ./configure --prefix=$SOURCE_PATH && make && make install && ldconfig && cd ..
 
     local_migrate
 
     ccnet-init -c $CONF_PATH -n zming -H 127.0.0.1
     
-    git clone git@github.com:seafileltd/seafile-pro-server.git && cd seafile-pro-server && git fetch origin 6.3-pro:6.3-pro && git checkout 6.3-pro && ./autogen.sh && ./configure --disable-fuse --prefix=$SOURCE_PATH && make && make install && ldconfig && cd ..
+    git clone https://github.com/haiwen/seafile-server.git && cd seafile-server && ./autogen.sh && ./configure --prefix=$SOURCE_PATH && make && make install && ldconfig && cd ..
 
     local_migrate
 
@@ -62,7 +62,7 @@ function init() {
 
     cd conf && echo -en "\n[Database]\nENGINE = mysql\nHOST = db\nPORT = 3306\nUSER = root\nPASSWD = db_dev\nDB = ccnet\nCONNECTION_CHARSET = utf8" >> ccnet.conf && echo -en "\n[database]\ntype = mysql\nhost = db\nport = 3306\nuser = root\npassword = db_dev\ndb_name = seafile\nconnection_charset = utf8" >> seafile-data/seafile.conf
 
-    cd /data/dev && git clone https://github.com/haiwen/seahub.git && cd seahub && git fetch origin 6.3:6.3 && git checkout 6.3
+    cd /data/dev && git clone https://github.com/haiwen/seahub.git && cd seahub
 
     cd $CONF_PATH && cat > seahub_settings.py <<EOF
 DEBUG = True
@@ -82,7 +82,7 @@ EOF
 
     cd /data/dev &&  git clone git@github.com:seafileltd/seahub-extra.git && cd seahub-extra && git fetch origin 6.3:6.3 && git checkout 6.3
 
-    cd /data/dev && git clone git@github.com:seafileltd/seafevents.git && cd seafevents && git fetch origin 6.3:6.3 && git checkout 6.3
+    #cd /data/dev && git clone git@github.com:seafileltd/seafevents.git && cd seafevents && git fetch origin 6.3:6.3 && git checkout 6.3
 
     cd $CONF_PATH && cat > seafevents.conf  <<EOF
 [DATABASE]

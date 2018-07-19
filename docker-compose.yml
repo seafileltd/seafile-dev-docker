@@ -32,7 +32,7 @@ services:
       - 11211:11211
 
   pro:
-    image: docker-dev.seafile.top/seafile-pro-dev:6.3
+    image: docker-dev.seafile.top/seafile-pro-dev:test
 
     environment:
       - DOCKER_DEV=1
