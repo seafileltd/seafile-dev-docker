@@ -105,46 +105,99 @@ function prepare_init() {
     mkdir -p $LOG_PATH
 }
 
+function fetch() {
+    prepare_init
+    cd $SOURCE_PATH
+
+    if [ ! -d "libmemcached-1.0.18" ];then
+        wget https://launchpad.net/libmemcached/1.0/1.0.18/+download/libmemcached-1.0.18.tar.gz && tar xf libmemcached-1.0.18.tar.gz
+    fi
+    ssh-keygen -F github.com || ssh-keyscan github.com >>~/.ssh/known_hosts
+
+    if [ ! -d "libevhtp" ];then
+        git clone git@github.com:haiwen/libevhtp.git
+    else
+        cd libevhtp && git pull && cd ..
+    fi
+
+    if [ ! -d "libsearpc" ];then
+        git clone git@github.com:haiwen/libsearpc.git
+    else
+        cd libsearpc && git pull && cd ..
+    fi
+
+    if [ ! -d "seafobj" ]; then
+        git clone git@github.com:haiwen/seafobj.git
+    else
+        cd seafobj && git pull && cd ..
+    fi
+
+    if [ ! -d "portable-python-libevent" ]; then
+        git clone git@github.com:seafileltd/portable-python-libevent.git
+    else
+        cd portable-python-libevent && git pull && cd ..
+    fi
+
+    if [ ! -d "ccnet-pro-server" ]; then
+        git clone git@github.com:seafileltd/ccnet-pro-server.git
+    else
+        cd ccnet-pro-server && git pull && cd ..
+    fi
+
+    if [ ! -d "seafile-pro-server" ]; then
+        git clone git@github.com:seafileltd/seafile-pro-server.git
+    else
+        cd seafile-pro-server && git pull && cd ..
+    fi
+
+    if [ ! -d "/data/dev/seahub" ]; then
+        cd /data/dev && git clone git@github.com:/haiwen/seahub.git
+    else
+        cd /data/dev/seahub && git pull && cd -
+    fi
+
+    if [ ! -d "/data/dev/seahub-extra" ]; then
+        cd /data/dev && git clone git@github.com:seafileltd/seahub-extra.git
+    else
+        cd /data/dev/seahub-extra && git pull && cd -
+    fi
+
+    if [ ! -d "/data/dev/seafevents" ]; then
+        cd /data/dev && git clone git@github.com:seafileltd/seafevents.git
+    else
+        cd /data/dev/seafevents && git pull && cd -
+    fi
+
+    if [ ! -d "/data/dev/seafes" ]; then
+        cd /data/dev && git clone git@github.com:seafileltd/seafes.git
+    else
+        cd /data/dev/seafes && git pull && cd -
+    fi
+}
+
 
 function compile() {
 
-    prepare_init
-
     cd $SOURCE_PATH
 
-    wget https://launchpad.net/libmemcached/1.0/1.0.18/+download/libmemcached-1.0.18.tar.gz && tar xf libmemcached-1.0.18.tar.gz && cd libmemcached-1.0.18/ && ./configure --prefix=$COMPILE_PATH && make && make install && ldconfig && cd ..
-
+    cd libmemcached-1.0.18/ && ./configure --prefix=$COMPILE_PATH && make && make install && ldconfig && cd ..
     install_compiled
 
-    ssh-keygen -F github.com || ssh-keyscan github.com >>~/.ssh/known_hosts
-
-    git clone git@github.com:haiwen/seafobj.git
-
-    git clone git@github.com:haiwen/libevhtp.git && cd libevhtp/ && cmake -DCMAKE_INSTALL_PREFIX:PATH=$COMPILE_PATH -DEVHTP_DISABLE_SSL=OFF -DEVHTP_BUILD_SHARED=ON . && make && make install && ldconfig && cd ..
-
+    cd libevhtp/ && cmake -DCMAKE_INSTALL_PREFIX:PATH=$COMPILE_PATH -DEVHTP_DISABLE_SSL=OFF -DEVHTP_BUILD_SHARED=ON . && make && make install && ldconfig && cd ..
     install_compiled
 
-    git clone git@github.com:haiwen/libsearpc.git && cd libsearpc && ./autogen.sh && ./configure --prefix=$COMPILE_PATH && make && make install && ldconfig && cd ..
-
+    cd libsearpc && ./autogen.sh && ./configure --prefix=$COMPILE_PATH && make && make install && ldconfig && cd ..
     install_compiled
 
-    git clone git@github.com:seafileltd/portable-python-libevent.git
-
-    git clone git@github.com:seafileltd/ccnet-pro-server.git && cd ccnet-pro-server && ./autogen.sh && ./configure --prefix=$COMPILE_PATH && make && make install && ldconfig && cd ..
+    cd ccnet-pro-server && ./autogen.sh && ./configure --prefix=$COMPILE_PATH && make && make install && ldconfig && cd ..
 
     install_compiled
 
     ccnet-init -c $CONF_PATH -n zming -H 127.0.0.1
 
-    git clone git@github.com:seafileltd/seafile-pro-server.git && cd seafile-pro-server && ./autogen.sh && ./configure --disable-fuse --prefix=$COMPILE_PATH && make && make install && ldconfig && cd ..
+    cd seafile-pro-server && ./autogen.sh && ./configure --disable-fuse --prefix=$COMPILE_PATH && make && make install && ldconfig && cd ..
 
     install_compiled
-
-    cd $CONF_PATH && seaf-server-init -d seafile-data/ && echo "$CONF_PATH/seafile-data" > seafile.ini && cd ..
-
-    cd conf && echo -en "\n[Database]\nENGINE = mysql\nHOST = db\nPORT = 3306\nUSER = root\nPASSWD = db_dev\nDB = ccnet\nCONNECTION_CHARSET = utf8" >> ccnet.conf && echo -en "\n[database]\ntype = mysql\nhost = db\nport = 3306\nuser = root\npassword = db_dev\ndb_name = seafile\nconnection_charset = utf8" >> seafile-data/seafile.conf
-
-    cd /data/dev && git clone git@github.com:/haiwen/seahub.git
 
     cd $CONF_PATH && cat > seahub_settings.py <<EOF
 DEBUG = True
@@ -161,10 +214,6 @@ DATABASES = {
     }
 }
 EOF
-
-    cd /data/dev &&  git clone git@github.com:seafileltd/seahub-extra.git
-
-    cd /data/dev && git clone git@github.com:seafileltd/seafevents.git
 
     cd $CONF_PATH && cat > seafevents.conf  <<EOF
 [DATABASE]
@@ -191,7 +240,11 @@ enabled = true
 enabled = true
 EOF
 
-    cd /data/dev && git clone git@github.com:seafileltd/seafes.git
+    if [ ! -f "$CONF_PATH/seafile-data/seafile.conf" ]; then
+        cd $CONF_PATH && seaf-server-init -d seafile-data/ && echo "$CONF_PATH/seafile-data" > seafile.ini && cd ..
+
+        cd conf && echo -en "\n[Database]\nENGINE = mysql\nHOST = db\nPORT = 3306\nUSER = root\nPASSWD = db_dev\nDB = ccnet\nCONNECTION_CHARSET = utf8" >> ccnet.conf && echo -en "\n[database]\ntype = mysql\nhost = db\nport = 3306\nuser = root\npassword = db_dev\ndb_name = seafile\nconnection_charset = utf8" >> seafile-data/seafile.conf && cd -
+    fi
 }
 
 
@@ -204,6 +257,9 @@ case $1 in
         ;;
     "install" )
         install_compiled
+        ;;
+    "fetch" )
+        fetch
         ;;
     "compile" )
         compile
