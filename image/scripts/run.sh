@@ -243,7 +243,7 @@ EOF
     if [ ! -f "$CONF_PATH/seafile-data/seafile.conf" ]; then
         cd $CONF_PATH && seaf-server-init -d seafile-data/ && echo "$CONF_PATH/seafile-data" > seafile.ini && cd ..
 
-        cd conf && echo -en "\n[Database]\nENGINE = mysql\nHOST = db\nPORT = 3306\nUSER = root\nPASSWD = db_dev\nDB = ccnet\nCONNECTION_CHARSET = utf8" >> ccnet.conf && echo -en "\n[database]\ntype = mysql\nhost = db\nport = 3306\nuser = root\npassword = db_dev\ndb_name = seafile\nconnection_charset = utf8" >> seafile-data/seafile.conf && cd -
+        cd conf && echo -en "\n[Database]\nENGINE = mysql\nHOST = db\nPORT = 3306\nUSER = root\nPASSWD = db_dev\nDB = ccnet\nCONNECTION_CHARSET = utf8\nCREATE_TABLES = true" >> ccnet.conf && echo -en "\n[database]\ntype = mysql\nhost = db\nport = 3306\nuser = root\npassword = db_dev\ndb_name = seafile\nconnection_charset = utf8\ncreate_tables = true" >> seafile-data/seafile.conf && cd -
     fi
 }
 
