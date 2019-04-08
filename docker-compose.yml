@@ -51,6 +51,7 @@ services:
       - LICENSE_DIR=/code/seaf-license
       - PYTHONPATH=/code:/code/seafevents:/usr/local/lib/python2.7/dist-packages:/code/seahub/thirdpart:/code/seahub/thirdpart/social-app-django
       - PATH=/data/scripts:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+      - SEAHUB_LOG_DIR=/data/logs
 
     container_name: seafile-pro-dev
     volumes:
