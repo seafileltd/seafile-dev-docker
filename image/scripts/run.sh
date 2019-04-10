@@ -66,6 +66,12 @@ function run_python_wth_env() {
     $PYTHON ${*:2}
 }
 
+function run_pytest_wth_env() {
+    set_env
+    check_python_executable
+
+    py.test ${*:2}
+}
 
 function check_process() {
     # check the args
@@ -254,6 +260,9 @@ case $1 in
         ;;
     "python-env" )
         run_python_wth_env "$@"
+        ;;
+    "pytest" )
+        run_pytest_wth_env "$@"
         ;;
     "install" )
         install_compiled
