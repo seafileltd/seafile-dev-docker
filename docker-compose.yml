@@ -55,7 +55,7 @@ services:
 
     container_name: seafile-pro-dev
     volumes:
-      - /root/data:/data
+      - /root/data:/data:cached
     ports:
      - 8000:8000
      - "8082:8082"
