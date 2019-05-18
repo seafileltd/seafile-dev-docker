@@ -1,4 +1,4 @@
-pip install sqlalchemy pillow mysql-python elasticsearch==2.4.0 elasticsearch-dsl==2.2.0
+pip install sqlalchemy pillow mysql-python elasticsearch==5.5.0 elasticsearch-dsl==5.4.0
 
 wget https://raw.githubusercontent.com/haiwen/seahub/${BRANCH}/requirements.txt
 wget https://raw.githubusercontent.com/haiwen/seahub/${BRANCH}/test-requirements.txt
