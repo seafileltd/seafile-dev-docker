@@ -12,7 +12,7 @@ function stop_server() {
 function set_env() {
     export CCNET_CONF_DIR=$CONF_PATH
     export SEAFILE_CONF_DIR=$CONF_PATH/seafile-data
-    export PYTHONPATH=/usr/lib/python2.7/dist-packages:/usr/lib/python2.7/site-packages:/usr/local/lib/python2.7/dist-packages:/usr/local/lib/python2.7/site-packages:/data/dev/seahub/thirdpart:/data/dev/pyes/pyes:/data/dev/seahub-extra::/data/dev/portable-python-libevent/libevent:/data/dev/seafobj:/data/dev/:/data/dev/seahub/seahub/:$CONF_PATH:$PYTHONPATH
+    export PYTHONPATH=$COMPILE_PATH:/usr/lib/python2.7/dist-packages:/usr/lib/python2.7/site-packages:/usr/local/lib/python2.7/dist-packages:/usr/local/lib/python2.7/site-packages:/data/dev/seahub/thirdpart:/data/dev/pyes/pyes:/data/dev/seahub-extra::/data/dev/portable-python-libevent/libevent:/data/dev/seafobj:/data/dev/:/data/dev/seahub/seahub/:$CONF_PATH:$PYTHONPATH
     export SEAFES_DIR=/data/dev/seafes/
 }
 
@@ -146,14 +146,28 @@ function fetch() {
 
     if [ ! -d "ccnet-pro-server" ]; then
         git clone git@github.com:seafileltd/ccnet-pro-server.git
+        cd ccnet-pro-server
+        git fetch origin 7.0-pro:7.0-pro
+        git checkout 7.0-pro
+        cd ..
     else
-        cd ccnet-pro-server && git pull && cd ..
+        cd ccnet-pro-server
+        git fetch origin 7.0-pro:7.0-pro
+        git checkout 7.0-pro
+        cd ..
     fi
 
     if [ ! -d "seafile-pro-server" ]; then
         git clone git@github.com:seafileltd/seafile-pro-server.git
+        cd ccnet-pro-server
+        git fetch origin 7.0-pro:7.0-pro
+        git checkout 7.0-pro
+        cd ..
     else
-        cd seafile-pro-server && git pull && cd ..
+        cd seafile-pro-server
+        git fetch origin 7.0-pro:7.0-pro
+        git checkout 7.0-pro
+        cd ..
     fi
 
     if [ ! -d "/data/dev/seahub" ]; then
