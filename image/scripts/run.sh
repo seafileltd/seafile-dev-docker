@@ -128,14 +128,28 @@ function fetch() {
 
     if [ ! -d "libsearpc" ];then
         git clone git@github.com:haiwen/libsearpc.git
+        cd libsearpc
+        git fetch origin 7.0:7.0
+        git checkout 7.0
+        cd ..
     else
-        cd libsearpc && git pull && cd ..
+        cd libsearpc
+        git fetch origin 7.0:7.0
+        git checkout 7.0
+        cd ..
     fi
 
     if [ ! -d "seafobj" ]; then
         git clone git@github.com:haiwen/seafobj.git
+        cd seafobj
+        git fetch origin 7.0:7.0
+        git checkout 7.0
+        cd ..
     else
-        cd seafobj && git pull && cd ..
+        cd seafobj
+        git fetch origin 7.0:7.0
+        git checkout 7.0
+        cd ..
     fi
 
     if [ ! -d "portable-python-libevent" ]; then
