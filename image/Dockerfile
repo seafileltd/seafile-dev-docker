@@ -1,4 +1,4 @@
-FROM ubuntu:bionic
+FROM phusion/baseimage:0.11
 
 ENV UPDATE_AT=20190826 BRANCH=python3-7.0 COMPILE_PATH=/data/compiled SOURCE_PATH=/data/dev LOG_PATH=/data/logs CONF_PATH=/data/conf
 
@@ -50,14 +50,16 @@ RUN ln -s /usr/local/bin/pip3.7 /usr/bin/pip3
 RUN apt-get autoremove -y
 
 
+# scripts
 RUN rm -rf /etc/my_init.d/*
 COPY scripts/01_init.sh scripts/02_aliass.sh /etc/my_init.d/
 COPY scripts /root/scripts
-RUN mkdir /root/.ssh/
+RUN mkdir -p /root/.ssh/
 
+# install python packages
 RUN . /root/scripts/pip_install.sh
 RUN rm -rf ~/.cache/pip
 
-CMD ["/sbin/init", "--", "/root/scripts/enterpoint.sh"]
-CMD ["/sbin/init", "--", "/root/scripts/01_init.sh"]
-CMD ["/sbin/init", "--", "/root/scripts/02_aliass.sh"]
+# https://github.com/phusion/baseimage-docker/blob/master/README_ZH_cn_.md
+CMD ["/sbin/my_init", "--", "/root/scripts/enterpoint.sh"]
+CMD ["/sbin/my_init"]
