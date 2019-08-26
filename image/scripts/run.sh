@@ -12,8 +12,9 @@ function stop_server() {
 function set_env() {
     export CCNET_CONF_DIR=$CONF_PATH
     export SEAFILE_CONF_DIR=$CONF_PATH/seafile-data
-    export PYTHONPATH=$COMPILE_PATH:/usr/lib/python2.7/dist-packages:/usr/lib/python2.7/site-packages:/usr/local/lib/python2.7/dist-packages:/usr/local/lib/python2.7/site-packages:/data/dev/seahub/thirdpart:/data/dev/pyes/pyes:/data/dev/seahub-extra::/data/dev/portable-python-libevent/libevent:/data/dev/seafobj:/data/dev/:/data/dev/seahub/seahub/:$CONF_PATH:$PYTHONPATH
+    export PYTHONPATH=$COMPILE_PATH:/usr/lib/python3.7/dist-packages:/usr/lib/python3.7/site-packages:/usr/local/lib/python3.7/dist-packages:/usr/local/lib/python3.7/site-packages:/data/dev/seahub/thirdpart:/data/dev/pyes/pyes:/data/dev/seahub-extra::/data/dev/portable-python-libevent/libevent:/data/dev/seafobj:/data/dev/:/data/dev/seahub/seahub/:$CONF_PATH:$PYTHONPATH
     export SEAFES_DIR=/data/dev/seafes/
+    export SEAHUB_DIR=/data/dev/seabub/
 }
 
 function start_server() {
@@ -45,14 +46,14 @@ function check_python_executable() {
         return 0
     fi
 
-    if which python2.7 2>/dev/null 1>&2; then
-        PYTHON=python2.7
-    elif which python27 2>/dev/null 1>&2; then
-        PYTHON=python27
+    if which python3.7 2>/dev/null 1>&2; then
+        PYTHON=python3.7
+    elif which python37 2>/dev/null 1>&2; then
+        PYTHON=python37
     else
         echo
-        echo "Can't find a python executable of version 2.7 or above in PATH"
-        echo "Install python 2.7+ before continue."
+        echo "Can't find a python executable of version 3.7 or above in PATH"
+        echo "Install python 3.7+ before continue."
         echo "Or if you installed it in a non-standard PATH, set the PYTHON enviroment varirable to it"
         echo
         exit 1
@@ -115,9 +116,6 @@ function fetch() {
     prepare_init
     cd $SOURCE_PATH
 
-    if [ ! -d "libmemcached-1.0.18" ];then
-        wget https://launchpad.net/libmemcached/1.0/1.0.18/+download/libmemcached-1.0.18.tar.gz && tar xf libmemcached-1.0.18.tar.gz
-    fi
     ssh-keygen -F github.com || ssh-keyscan github.com >>~/.ssh/known_hosts
 
     if [ ! -d "libevhtp" ];then
@@ -128,28 +126,14 @@ function fetch() {
 
     if [ ! -d "libsearpc" ];then
         git clone git@github.com:haiwen/libsearpc.git
-        cd libsearpc
-        git fetch origin 7.0:7.0
-        git checkout 7.0
-        cd ..
     else
-        cd libsearpc
-        git fetch origin 7.0:7.0
-        git checkout 7.0
-        cd ..
+        cd libsearpc && git pull && cd -
     fi
 
     if [ ! -d "seafobj" ]; then
         git clone git@github.com:haiwen/seafobj.git
-        cd seafobj
-        git fetch origin 7.0:7.0
-        git checkout 7.0
-        cd ..
     else
-        cd seafobj
-        git fetch origin 7.0:7.0
-        git checkout 7.0
-        cd ..
+        cd seafobj && git pull && cd -
     fi
 
     if [ ! -d "portable-python-libevent" ]; then
@@ -160,28 +144,14 @@ function fetch() {
 
     if [ ! -d "ccnet-pro-server" ]; then
         git clone git@github.com:seafileltd/ccnet-pro-server.git
-        cd ccnet-pro-server
-        git fetch origin 7.0-pro:7.0-pro
-        git checkout 7.0-pro
-        cd ..
     else
-        cd ccnet-pro-server
-        git fetch origin 7.0-pro:7.0-pro
-        git checkout 7.0-pro
-        cd ..
+        cd ccnet-pro-server && git pull && cd -
     fi
 
     if [ ! -d "seafile-pro-server" ]; then
         git clone git@github.com:seafileltd/seafile-pro-server.git
-        cd ccnet-pro-server
-        git fetch origin 7.0-pro:7.0-pro
-        git checkout 7.0-pro
-        cd ..
     else
-        cd seafile-pro-server
-        git fetch origin 7.0-pro:7.0-pro
-        git checkout 7.0-pro
-        cd ..
+        cd seafile-pro-server && git pull && cd -
     fi
 
     if [ ! -d "/data/dev/seahub" ]; then
@@ -209,15 +179,12 @@ function fetch() {
     fi
 }
 
-
+#https://dev.seafile.com/seahub/f/a4124dd839484598b63c/
 function compile() {
 
     cd $SOURCE_PATH
 
-    cd libmemcached-1.0.18/ && ./configure --prefix=$COMPILE_PATH && make && make install && ldconfig && cd ..
-    install_compiled
-
-    cd libevhtp/ && cmake -DCMAKE_INSTALL_PREFIX:PATH=$COMPILE_PATH -DEVHTP_DISABLE_SSL=OFF -DEVHTP_BUILD_SHARED=ON . && make && make install && ldconfig && cd ..
+    cd libevhtp/ && cmake -DCMAKE_INSTALL_PREFIX:PATH=$COMPILE_PATH -DEVHTP_DISABLE_SSL=ON -DEVHTP_BUILD_SHARED=OFF . && make && make install && ldconfig && cd ..
     install_compiled
 
     cd libsearpc && ./autogen.sh && ./configure --prefix=$COMPILE_PATH && make && make install && ldconfig && cd ..

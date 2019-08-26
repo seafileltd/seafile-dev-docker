@@ -1,5 +1,7 @@
-pip install sqlalchemy pillow mysql-python elasticsearch==5.5.0 elasticsearch-dsl==5.4.0
+pip install python-cas djangosaml2 sqlalchemy pillow elasticsearch \
+  elasticsearch-dsl pycryptodome
 
+cd /tmp
 wget https://raw.githubusercontent.com/haiwen/seahub/${BRANCH}/requirements.txt
 wget https://raw.githubusercontent.com/haiwen/seahub/${BRANCH}/test-requirements.txt
 
