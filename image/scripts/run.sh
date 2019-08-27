@@ -14,7 +14,7 @@ function set_env() {
     export SEAFILE_CONF_DIR=$CONF_PATH/seafile-data
     export PYTHONPATH=$COMPILE_PATH:/usr/lib/python3.7/dist-packages:/usr/lib/python3.7/site-packages:/usr/local/lib/python3.7/dist-packages:/usr/local/lib/python3.7/site-packages:/data/dev/seahub/thirdpart:/data/dev/pyes/pyes:/data/dev/seahub-extra::/data/dev/portable-python-libevent/libevent:/data/dev/seafobj:/data/dev/:/data/dev/seahub/seahub/:$CONF_PATH:$PYTHONPATH
     export SEAFES_DIR=/data/dev/seafes/
-    export SEAHUB_DIR=/data/dev/seabub/
+    export SEAHUB_DIR=/data/dev/seahub/
 }
 
 function start_server() {

@@ -1,5 +1,5 @@
 pip install python-cas djangosaml2 sqlalchemy pillow elasticsearch \
-  elasticsearch-dsl pycryptodome
+  elasticsearch-dsl pycryptodome pylibmc django-pylibmc
 
 cd /tmp
 wget https://raw.githubusercontent.com/haiwen/seahub/${BRANCH}/requirements.txt
