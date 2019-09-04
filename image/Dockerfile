@@ -1,6 +1,6 @@
 FROM phusion/baseimage:0.11
 
-ENV UPDATE_AT=20190826 BRANCH=python3-7.0 COMPILE_PATH=/data/compiled SOURCE_PATH=/data/dev LOG_PATH=/data/logs CONF_PATH=/data/conf
+ENV UPDATE_AT=20190826 BRANCH=python3-master COMPILE_PATH=/data/compiled SOURCE_PATH=/data/dev LOG_PATH=/data/logs CONF_PATH=/data/conf
 
 RUN rm -rf /etc/localtime && ln -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 
@@ -62,4 +62,3 @@ RUN rm -rf ~/.cache/pip
 
 # https://github.com/phusion/baseimage-docker/blob/master/README_ZH_cn_.md
 CMD ["/sbin/my_init", "--", "/root/scripts/enterpoint.sh"]
-CMD ["/sbin/my_init"]
