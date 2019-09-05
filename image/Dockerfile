@@ -47,7 +47,7 @@ RUN ln -s /usr/bin/python3.7 /usr/bin/python3
 RUN ln -s /usr/local/bin/pip3.7 /usr/bin/pip
 RUN ln -s /usr/local/bin/pip3.7 /usr/bin/pip3
 
-RUN apt-get autoremove -y
+RUN apt-get autoremove -y && apt-get autoclean -y
 
 
 # scripts
