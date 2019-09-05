@@ -1,5 +1,5 @@
 pip install python-cas djangosaml2 cffi sqlalchemy pillow \
-  pycryptodome configparser pylibmc django-pylibmc \
+  pycryptodome configparser pylibmc django-pylibmc mysqlclient \
   elasticsearch==5.5.0 elasticsearch-dsl==5.4.0
 
 cd /tmp
