@@ -1,6 +1,6 @@
 FROM phusion/baseimage:0.11
 
-ENV UPDATE_AT=20190826 BRANCH=python3-master COMPILE_PATH=/data/compiled SOURCE_PATH=/data/dev LOG_PATH=/data/logs CONF_PATH=/data/conf
+ENV UPDATE_AT=20190910 BRANCH=master COMPILE_PATH=/data/compiled SOURCE_PATH=/data/dev LOG_PATH=/data/logs CONF_PATH=/data/conf
 
 RUN rm -rf /etc/localtime && ln -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 
@@ -31,7 +31,7 @@ RUN apt-get install -y pkg-config poppler-utils
 # libmemcached
 RUN apt-get install -y libmemcached-dev
 
-# set up the repository for nodejs and npm
+# set up the repository for nodejs 10 and npm
 RUN curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
 RUN apt-get install -y nodejs
 

@@ -12,7 +12,7 @@ function stop_server() {
 function set_env() {
     export CCNET_CONF_DIR=$CONF_PATH
     export SEAFILE_CONF_DIR=$CONF_PATH/seafile-data
-    export PYTHONPATH=$COMPILE_PATH:/usr/lib/python3.7/dist-packages:/usr/lib/python3.7/site-packages:/usr/local/lib/python3.7/dist-packages:/usr/local/lib/python3.7/site-packages:/data/dev/seahub/thirdpart:/data/dev/pyes/pyes:/data/dev/seahub-extra::/data/dev/portable-python-libevent/libevent:/data/dev/seafobj:/data/dev/:/data/dev/seahub/seahub/:$CONF_PATH:$PYTHONPATH
+    export PYTHONPATH=$COMPILE_PATH:$CONF_PATH:$PYTHONPATH:/usr/lib/python3.7/dist-packages:/usr/lib/python3.7/site-packages:/usr/local/lib/python3.7/dist-packages:/usr/local/lib/python3.7/site-packages:/data/dev/seahub/thirdpart:/data/dev/pyes/pyes:/data/dev/seahub-extra::/data/dev/portable-python-libevent/libevent:/data/dev/seafobj:/data/dev/seahub/seahub/:/data/dev/
     export SEAFES_DIR=/data/dev/seafes/
     export SEAHUB_DIR=/data/dev/seahub/
 }
@@ -200,9 +200,10 @@ function compile() {
 
     install_compiled
 
+
+if [ ! -f "$CONF_PATH/seahub_settings.py" ]; then
     cd $CONF_PATH && cat > seahub_settings.py <<EOF
 DEBUG = True
-TEMPLATE_DEBUG = True
 
 DATABASES = {
     'default': {
@@ -215,7 +216,9 @@ DATABASES = {
     }
 }
 EOF
+fi
 
+if [ ! -f "$CONF_PATH/seafevents.conf" ]; then
     cd $CONF_PATH && cat > seafevents.conf  <<EOF
 [DATABASE]
 type = mysql
@@ -240,7 +243,7 @@ enabled = true
 [AUDIT]
 enabled = true
 EOF
-
+fi
     if [ ! -f "$CONF_PATH/seafile-data/seafile.conf" ]; then
         cd $CONF_PATH && seaf-server-init -d seafile-data/ && echo "$CONF_PATH/seafile-data" > seafile.ini && cd ..
 
