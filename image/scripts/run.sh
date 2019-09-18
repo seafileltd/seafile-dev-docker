@@ -7,6 +7,7 @@ function stop_server() {
     pkill -9 -f seaf-server
     pkill -9 -f runserver
     pkill -9 -f main
+    pkill -9 -f "node dist/src/index.js"
 }
 
 function set_env() {
@@ -39,6 +40,12 @@ function start_frontend {
     set_env
     cd /data/dev/seahub/frontend
     npm run dev &
+}
+
+function start_dtable {
+    set_env
+    cd /data/dev/dtable-server/
+    export DTABLE_SERVER_CONFIG=config/config.json && node dist/src/index.js >> index.log &
 }
 
 function check_python_executable() {
@@ -273,6 +280,9 @@ case $1 in
         ;;
     "start-frontend" )
         start_frontend
+        ;;
+    "start-dtable" )
+        start_dtable
         ;;
     * )
         start_server
