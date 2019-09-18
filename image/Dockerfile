@@ -62,3 +62,7 @@ RUN rm -rf ~/.cache/pip
 
 # https://github.com/phusion/baseimage-docker/blob/master/README_ZH_cn_.md
 CMD ["/sbin/my_init", "--", "/root/scripts/enterpoint.sh"]
+
+# set up dtable development env
+COPY scripts/default /etc/nginx/sites-available/default
+CMD ["nginx", "-g", "daemon off;"]
