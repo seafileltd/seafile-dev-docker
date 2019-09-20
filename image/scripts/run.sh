@@ -44,6 +44,7 @@ function start_frontend {
 
 function start_dtable {
     set_env
+    service nginx restart
     cd /data/dev/dtable-server/
     export DTABLE_SERVER_CONFIG=config/config.json && node dist/src/index.js >> index.log &
 }
