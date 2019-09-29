@@ -144,12 +144,6 @@ function fetch() {
         cd seafobj && git pull && cd -
     fi
 
-    if [ ! -d "portable-python-libevent" ]; then
-        git clone git@github.com:seafileltd/portable-python-libevent.git
-    else
-        cd portable-python-libevent && git pull && cd ..
-    fi
-
     if [ ! -d "ccnet-pro-server" ]; then
         git clone git@github.com:seafileltd/ccnet-pro-server.git
     else
