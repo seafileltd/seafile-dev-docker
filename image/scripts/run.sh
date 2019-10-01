@@ -42,6 +42,24 @@ function start_frontend {
     npm run dev &
 }
 
+function start_dtable_web {
+    stop_server
+    set_env
+
+    ccnet-server -c $CONF_PATH -D all -L /data -f - &
+    sleep 0.5
+    seaf-server -c $CONF_PATH -d $CONF_PATH/seafile-data -D all -f -l - &
+    sleep 0.5
+    cd /data/dev/dtable-web/
+    python manage.py runserver 0.0.0.0:8001 &
+}
+
+function start_dtable_frontend {
+    set_env
+    cd /data/dev/dtable-web/frontend
+    npm run dev &
+}
+
 function start_dtable {
     set_env
     service nginx restart
@@ -80,6 +98,12 @@ function run_pytest_wth_env() {
     check_python_executable
 
     py.test ${*:2}
+}
+
+function run_with_env() {
+    set_env
+
+    ${*:2}
 }
 
 function check_process() {
@@ -264,6 +288,9 @@ case $1 in
     "pytest" )
         run_pytest_wth_env "$@"
         ;;
+    "env" )
+        run_with_env "$@"
+        ;;
     "install" )
         install_compiled
         ;;
@@ -274,6 +301,12 @@ case $1 in
         compile
         ;;
     "start-frontend" )
+        start_frontend
+        ;;
+    "start-dtable-web" )
+        start_dtable_web
+        ;;
+    "start-dtable-frontend" )
         start_frontend
         ;;
     "start-dtable" )
