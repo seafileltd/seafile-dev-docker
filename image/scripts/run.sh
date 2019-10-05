@@ -307,7 +307,7 @@ case $1 in
         start_dtable_web
         ;;
     "start-dtable-frontend" )
-        start_frontend
+        start_dtable_frontend
         ;;
     "start-dtable" )
         start_dtable
