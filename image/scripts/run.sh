@@ -216,7 +216,7 @@ function compile() {
     cd libsearpc && ./autogen.sh && ./configure --prefix=$COMPILE_PATH && make && make install && ldconfig && cd ..
     install_compiled
 
-    cd ccnet-pro-server && ./autogen.sh && ./configure --prefix=$COMPILE_PATH && make && make install && ldconfig && cd ..
+    cd ccnet-pro-server && ./autogen.sh && ./configure --prefix=$COMPILE_PATH --enable-ldap && make && make install && ldconfig && cd ..
 
     install_compiled
 
