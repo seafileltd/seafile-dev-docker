@@ -13,7 +13,7 @@ function stop_server() {
 function set_env() {
     export CCNET_CONF_DIR=$CONF_PATH
     export SEAFILE_CONF_DIR=$CONF_PATH/seafile-data
-    export PYTHONPATH=$COMPILE_PATH:$CONF_PATH:$PYTHONPATH:/usr/lib/python3.7/dist-packages:/usr/lib/python3.7/site-packages:/usr/local/lib/python3.7/dist-packages:/usr/local/lib/python3.7/site-packages:/data/dev/seahub/thirdpart:/data/dev/pyes/pyes:/data/dev/seahub-extra::/data/dev/portable-python-libevent/libevent:/data/dev/seafobj:/data/dev/seahub/seahub/:/data/dev/
+    export PYTHONPATH=$COMPILE_PATH:$CONF_PATH:$PYTHONPATH:/usr/lib/python2.7/dist-packages:/usr/lib/python2.7/site-packages:/usr/local/lib/python2.7/dist-packages:/usr/local/lib/python2.7/site-packages:/data/dev/seahub/thirdpart:/data/dev/pyes/pyes:/data/dev/seahub-extra::/data/dev/portable-python-libevent/libevent:/data/dev/seafobj:/data/dev/seahub/seahub/:/data/dev/
     export SEAFES_DIR=/data/dev/seafes/
     export SEAHUB_DIR=/data/dev/seahub/
 }
@@ -72,14 +72,14 @@ function check_python_executable() {
         return 0
     fi
 
-    if which python3.7 2>/dev/null 1>&2; then
-        PYTHON=python3.7
-    elif which python37 2>/dev/null 1>&2; then
-        PYTHON=python37
+    if which python2.7 2>/dev/null 1>&2; then
+        PYTHON=python2.7
+    elif which python27 2>/dev/null 1>&2; then
+        PYTHON=python27
     else
         echo
-        echo "Can't find a python executable of version 3.7 or above in PATH"
-        echo "Install python 3.7+ before continue."
+        echo "Can't find a python executable of version 2.7 or above in PATH"
+        echo "Install python 2.7+ before continue."
         echo "Or if you installed it in a non-standard PATH, set the PYTHON enviroment varirable to it"
         echo
         exit 1
@@ -158,50 +158,107 @@ function fetch() {
 
     if [ ! -d "libsearpc" ];then
         git clone git@github.com:haiwen/libsearpc.git
+        cd libsearpc
+        git fetch origin 7.0:7.0
+        git checkout 7.0
+        cd ..
     else
-        cd libsearpc && git pull && cd -
+        cd libsearpc
+        git fetch origin 7.0:7.0
+        git checkout 7.0
+        cd ..
     fi
 
     if [ ! -d "seafobj" ]; then
         git clone git@github.com:haiwen/seafobj.git
+        cd libsearpc
+        git fetch origin 7.0:7.0
+        git checkout 7.0
+        cd ..
     else
-        cd seafobj && git pull && cd -
+        cd libsearpc
+        git fetch origin 7.0:7.0
+        git checkout 7.0
+        cd ..
     fi
 
     if [ ! -d "ccnet-pro-server" ]; then
         git clone git@github.com:seafileltd/ccnet-pro-server.git
+        cd ccnet-pro-server
+        git fetch origin 7.0-pro:7.0-pro
+        git checkout 7.0-pro
+        cd ..
     else
-        cd ccnet-pro-server && git pull && cd -
+        cd ccnet-pro-server
+        git fetch origin 7.0-pro:7.0-pro
+        git checkout 7.0-pro
+        cd ..
     fi
 
     if [ ! -d "seafile-pro-server" ]; then
         git clone git@github.com:seafileltd/seafile-pro-server.git
+        cd seafile-pro-server
+        git fetch origin 7.0-pro:7.0-pro
+        git checkout 7.0-pro
+        cd ..
     else
-        cd seafile-pro-server && git pull && cd -
+        cd seafile-pro-server
+        git fetch origin 7.0-pro:7.0-pro
+        git checkout 7.0-pro
+        cd ..
     fi
 
     if [ ! -d "/data/dev/seahub" ]; then
         cd /data/dev && git clone git@github.com:/haiwen/seahub.git
+        cd seahub
+        git fetch origin 7.0:7.0
+        git checkout 7.0
+        cd ..
     else
-        cd /data/dev/seahub && git pull && cd -
+        cd seahub
+        git fetch origin 7.0:7.0
+        git checkout 7.0
+        cd ..
     fi
 
     if [ ! -d "/data/dev/seahub-extra" ]; then
         cd /data/dev && git clone git@github.com:seafileltd/seahub-extra.git
+        cd seahub-extra
+        git fetch origin 7.0:7.0
+        git checkout 7.0
+        cd ..
     else
         cd /data/dev/seahub-extra && git pull && cd -
+        cd seahub-extra
+        git fetch origin 7.0:7.0
+        git checkout 7.0
+        cd ..
     fi
 
     if [ ! -d "/data/dev/seafevents" ]; then
         cd /data/dev && git clone git@github.com:seafileltd/seafevents.git
+        cd seafevents
+        git fetch origin 7.0:7.0
+        git checkout 7.0
+        cd ..
     else
-        cd /data/dev/seafevents && git pull && cd -
+        cd seafevents
+        git fetch origin 7.0:7.0
+        git checkout 7.0
+        cd ..
     fi
 
     if [ ! -d "/data/dev/seafes" ]; then
         cd /data/dev && git clone git@github.com:seafileltd/seafes.git
+        cd seafes
+        git fetch origin 7.0:7.0
+        git checkout 7.0
+        cd ..
     else
-        cd /data/dev/seafes && git pull && cd -
+        cd seafes
+        git fetch origin 7.0:7.0
+        git checkout 7.0
+        cd ..
     fi
 }
 

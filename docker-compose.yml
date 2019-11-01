@@ -24,10 +24,9 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=db_dev
       - MYSQL_LOG_CONSOLE=true
-      - lower_case_table_names=1
 
   memcached:
-    image: memcached:1.5.6
+    image: memcached:1.4-alpine
     container_name: seafile-memcached
     ports:
       - 11211:11211
@@ -43,14 +42,14 @@ services:
   #    - 9300:9300
 
   pro:
-    image: docker.seafile.top/seafile-dev/seafile-pro-dev:master
+    image: docker.seafile.top/seafile-dev/seafile-pro-dev:7.0
 
     environment:
       - DOCKER_DEV=1
       - LOCAL_USER_ID=1000
       - IS_PRO_VERSION=1
       - LICENSE_DIR=/data/seaf-license
-      - PYTHONPATH=$COMPILE_PATH:/usr/lib/python3.7/dist-packages:/usr/lib/python3.7/site-packages:/usr/local/lib/python3.7/dist-packages:/usr/local/lib/python3.7/site-packages:/data/dev/seahub/thirdpart:/data/dev/pyes/pyes:/data/dev/portable-python-libevent/libevent:/data/dev/seafobj:/data/dev/seahub/seahub/:$CONF_PATH:$PYTHONPATH
+      - PYTHONPATH=/code:/code/seafevents:/usr/local/lib/python2.7/dist-packages:/code/seahub/thirdpart:/code/seahub/thirdpart/social-app-django
       - PATH=/data/scripts:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
       - SEAHUB_LOG_DIR=/data/logs
 
@@ -59,12 +58,8 @@ services:
       - /root/data:/data:cached
     ports:
      - 8000:8000
-     - 8001:8001
      - 8082:8082
      - 3000:3000
-     - 3001:3001
-     - 5000:5000
-     - 80:80
     depends_on:
       - db
       - memcached

@@ -1,6 +1,6 @@
 FROM phusion/baseimage:0.11
 
-ENV UPDATE_AT=20190910 BRANCH=master COMPILE_PATH=/data/compiled SOURCE_PATH=/data/dev LOG_PATH=/data/logs CONF_PATH=/data/conf
+ENV UPDATE_AT=20190910 BRANCH=7.0 COMPILE_PATH=/data/compiled SOURCE_PATH=/data/dev LOG_PATH=/data/logs CONF_PATH=/data/conf
 
 RUN rm -rf /etc/localtime && ln -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 
@@ -34,20 +34,6 @@ RUN apt-get install -y libmemcached-dev
 # set up the repository for nodejs 10 and npm
 RUN curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
 RUN apt-get install -y nodejs
-
-# set python3.7 global
-RUN apt-get install -y python3-dev python3-pip python3.7 python3.7-dev
-RUN python3.7 -m pip install --upgrade pip
-RUN rm /usr/bin/python; exit 0
-RUN rm /usr/bin/python3; exit 0
-RUN rm /usr/bin/pip; exit 0
-RUN rm /usr/bin/pip3; exit 0
-RUN ln -s /usr/bin/python3.7 /usr/bin/python
-RUN ln -s /usr/bin/python3.7 /usr/bin/python3
-RUN ln -s /usr/local/bin/pip3.7 /usr/bin/pip
-RUN ln -s /usr/local/bin/pip3.7 /usr/bin/pip3
-
-RUN apt-get autoremove -y && apt-get autoclean -y
 
 
 # scripts
