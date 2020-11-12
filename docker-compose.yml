@@ -43,7 +43,7 @@ services:
   #    - 9300:9300
 
   pro:
-    image: docker.seafile.top/seafile-dev/seafile-pro-dev:master
+    image: docker.seafile.top/seafile-dev/seafile-pro-dev:7.1
 
     environment:
       - DOCKER_DEV=1
