@@ -43,14 +43,14 @@ services:
   #    - 9300:9300
 
   pro:
-    image: docker.seafile.top/seafile-dev/seafile-pro-dev:master
+    image: docker.seafile.top/seafile-dev/seafile-pro-dev:8.0
 
     environment:
       - DOCKER_DEV=1
       - LOCAL_USER_ID=1000
       - IS_PRO_VERSION=1
       - LICENSE_DIR=/data/seaf-license
-      - PYTHONPATH=$COMPILE_PATH:/usr/lib/python3.7/dist-packages:/usr/lib/python3.7/site-packages:/usr/local/lib/python3.7/dist-packages:/usr/local/lib/python3.7/site-packages:/data/dev/seahub/thirdpart:/data/dev/pyes/pyes:/data/dev/portable-python-libevent/libevent:/data/dev/seafobj:/data/dev/seahub/seahub/:$CONF_PATH:$PYTHONPATH
+      - PYTHONPATH=$COMPILE_PATH:/usr/lib/python3.6/dist-packages:/usr/lib/python3.6/site-packages:/usr/local/lib/python3.6/dist-packages:/usr/local/lib/python3.6/site-packages:/data/dev/seahub/thirdpart:/data/dev/pyes/pyes:/data/dev/portable-python-libevent/libevent:/data/dev/seafobj:/data/dev/seahub/seahub/:$CONF_PATH:$PYTHONPATH
       - PATH=/data/scripts:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
       - SEAHUB_LOG_DIR=/data/logs
 

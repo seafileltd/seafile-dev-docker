@@ -29,7 +29,7 @@ if [[ $(git branch --list ${BRANCH}) ]]; then
         git Branch -D ${BRANCH}
     else
        echo 'please resolve this conflict first'
-       exit 1 
+       exit 1
     fi
 fi
 

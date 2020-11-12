@@ -7,7 +7,7 @@ function cleanup(){
   exit 0
 }
 
-trap cleanup SIGINT SIGTERM                                                
+trap cleanup SIGINT SIGTERM
 
 while [ 1 ]
 do

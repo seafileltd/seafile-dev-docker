@@ -13,7 +13,7 @@ function stop_server() {
 function set_env() {
     export CCNET_CONF_DIR=$CONF_PATH
     export SEAFILE_CONF_DIR=$CONF_PATH/seafile-data
-    export PYTHONPATH=$COMPILE_PATH:$CONF_PATH:$PYTHONPATH:/usr/lib/python3.7/dist-packages:/usr/lib/python3.7/site-packages:/usr/local/lib/python3.7/dist-packages:/usr/local/lib/python3.7/site-packages:/data/dev/seahub/thirdpart:/data/dev/pyes/pyes:/data/dev/seahub-extra::/data/dev/portable-python-libevent/libevent:/data/dev/seafobj:/data/dev/seahub/seahub/:/data/dev/
+    export PYTHONPATH=$COMPILE_PATH:$CONF_PATH:$PYTHONPATH:/usr/lib/python3.6/dist-packages:/usr/lib/python3.6/site-packages:/usr/local/lib/python3.6/dist-packages:/usr/local/lib/python3.6/site-packages:/data/dev/seahub/thirdpart:/data/dev/pyes/pyes:/data/dev/seahub-extra::/data/dev/portable-python-libevent/libevent:/data/dev/seafobj:/data/dev/seahub/seahub/:/data/dev/
     export SEAFES_DIR=/data/dev/seafes/
     export SEAHUB_DIR=/data/dev/seahub/
 }
@@ -72,14 +72,14 @@ function check_python_executable() {
         return 0
     fi
 
-    if which python3.7 2>/dev/null 1>&2; then
-        PYTHON=python3.7
-    elif which python37 2>/dev/null 1>&2; then
-        PYTHON=python37
+    if which python3.6 2>/dev/null 1>&2; then
+        PYTHON=python3.6
+    elif which python36 2>/dev/null 1>&2; then
+        PYTHON=python36
     else
         echo
-        echo "Can't find a python executable of version 3.7 or above in PATH"
-        echo "Install python 3.7+ before continue."
+        echo "Can't find a python executable of version 3.6 or above in PATH"
+        echo "Install python 3.6+ before continue."
         echo "Or if you installed it in a non-standard PATH, set the PYTHON enviroment varirable to it"
         echo
         exit 1
@@ -142,6 +142,8 @@ function prepare_init() {
     mkdir -p $COMPILE_PATH
     mkdir -p $SOURCE_PATH
     mkdir -p $LOG_PATH
+    mkdir -p $CONF_PATH
+    mkdir $CONF_PATH/seafile-data
 }
 
 function fetch() {
@@ -229,20 +231,23 @@ function compile() {
 
 if [ ! -f "$CONF_PATH/seahub_settings.py" ]; then
     cd $CONF_PATH && cat > seahub_settings.py <<EOF
-DEBUG = True
+# DEBUG = True
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'seahub', # Or path to database file if using sqlite3.
-        'USER': 'root',                      # Not used with sqlite3.
-        'PASSWORD': 'db_dev',                  # Not used with sqlite3.
-        'HOST': 'db',                      # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '3306',                      # Set to empty string for default. Not used with sqlite3.
+        'NAME': 'seahub',                     # Or path to database file if using sqlite3.
+        'USER': 'root',                       # Not used with sqlite3.
+        'PASSWORD': 'db_dev',                 # Not used with sqlite3.
+        'HOST': 'db',                         # Set to empty string for localhost. Not used with sqlite3.
+        'PORT': '3306',                       # Set to empty string for default. Not used with sqlite3.
     }
 }
+
+FILE_SERVER_ROOT = 'http://127.0.0.1:8082'
 EOF
 fi
+
 
 if [ ! -f "$CONF_PATH/seafevents.conf" ]; then
     cd $CONF_PATH && cat > seafevents.conf  <<EOF
@@ -270,11 +275,45 @@ enabled = true
 enabled = true
 EOF
 fi
-    if [ ! -f "$CONF_PATH/seafile-data/seafile.conf" ]; then
-        cd $CONF_PATH && seaf-server-init -d seafile-data/ && echo "$CONF_PATH/seafile-data" > seafile.ini && cd ..
 
-        cd conf && echo -en "\n[Database]\nENGINE = mysql\nHOST = db\nPORT = 3306\nUSER = root\nPASSWD = db_dev\nDB = ccnet\nCONNECTION_CHARSET = utf8\nCREATE_TABLES = true" >> ccnet.conf && echo -en "\n[database]\ntype = mysql\nhost = db\nport = 3306\nuser = root\npassword = db_dev\ndb_name = seafile\nconnection_charset = utf8\ncreate_tables = true" >> seafile-data/seafile.conf && cd -
-    fi
+
+if [ ! -f "$CONF_PATH/seafile-data/seafile.conf" ]; then
+
+    cd $CONF_PATH && cat > seafile.ini  <<EOF
+$CONF_PATH/seafile-data
+EOF
+
+
+    cd $CONF_PATH && cat > ccnet.conf  <<EOF
+[Database]
+ENGINE = mysql
+HOST = db
+PORT = 3306
+USER = root
+PASSWD = db_dev
+DB = ccnet
+CONNECTION_CHARSET = utf8
+CREATE_TABLES = true
+
+[General]
+SERVICE_URL = http://127.0.0.1:8000
+EOF
+
+
+    cd $CONF_PATH/seafile-data && cat > seafile.conf  <<EOF
+[database]
+type = mysql
+host = db
+port = 3306
+user = root
+password = db_dev
+db_name = seafile
+connection_charset = utf8
+create_tables = true
+EOF
+
+    cd
+fi
 }
 
 
