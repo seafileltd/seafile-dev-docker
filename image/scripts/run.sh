@@ -3,7 +3,6 @@
 #set -e
 
 function stop_server() {
-    pkill -9 -f ccnet-server
     pkill -9 -f seaf-server
     pkill -9 -f runserver
     pkill -9 -f main
@@ -23,8 +22,6 @@ function start_server() {
 
     set_env
 
-    ccnet-server -c $CONF_PATH -D all -L /data -f - &
-    sleep 0.5
     seaf-server -c $CONF_PATH -d $CONF_PATH/seafile-data -D all -f -l - &
     sleep 0.5
     cd /data/dev/seahub
@@ -46,8 +43,6 @@ function start_dtable_web {
     stop_server
     set_env
 
-    ccnet-server -c $CONF_PATH -D all -L /data -f - &
-    sleep 0.5
     seaf-server -c $CONF_PATH -d $CONF_PATH/seafile-data -D all -f -l - &
     sleep 0.5
     cd /data/dev/dtable-web/
@@ -170,12 +165,6 @@ function fetch() {
         cd seafobj && git pull && cd -
     fi
 
-    if [ ! -d "ccnet-pro-server" ]; then
-        git clone git@github.com:seafileltd/ccnet-pro-server.git
-    else
-        cd ccnet-pro-server && git pull && cd -
-    fi
-
     if [ ! -d "seafile-pro-server" ]; then
         git clone git@github.com:seafileltd/seafile-pro-server.git
     else
@@ -218,14 +207,7 @@ function compile() {
     cd libsearpc && ./autogen.sh && ./configure --prefix=$COMPILE_PATH && make && make install && ldconfig && cd ..
     install_compiled
 
-    cd ccnet-pro-server && ./autogen.sh && ./configure --prefix=$COMPILE_PATH --enable-ldap && make && make install && ldconfig && cd ..
-
-    install_compiled
-
-    ccnet-init -c $CONF_PATH -n zming -H 127.0.0.1
-
     cd seafile-pro-server && ./autogen.sh && ./configure --disable-fuse --prefix=$COMPILE_PATH && make && make install && ldconfig && cd ..
-
     install_compiled
 
 
