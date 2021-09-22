@@ -1,4 +1,4 @@
-FROM phusion/baseimage:0.11
+FROM phusion/baseimage:focal-1.0.0
 
 ENV UPDATE_AT=20190910 BRANCH=master COMPILE_PATH=/data/compiled SOURCE_PATH=/data/dev LOG_PATH=/data/logs CONF_PATH=/data/conf
 
@@ -9,8 +9,8 @@ RUN apt-get update && apt-get upgrade -y
 # See https://manual.seafile.com/develop/env.html
 RUN apt-get install -y ssh libevent-dev libcurl4-openssl-dev libglib2.0-dev \
   uuid-dev intltool libsqlite3-dev libmysqlclient-dev libarchive-dev libtool \
-  libjansson-dev valac libfuse-dev python-dateutil cmake re2c flex sqlite3 python-pip \
-  python-simplejson git libssl-dev libldap2-dev libonig-dev
+  libjansson-dev valac libfuse-dev cmake re2c flex sqlite3 htop \
+  git libssl-dev libldap2-dev libonig-dev
 
 
 # development tools
@@ -35,30 +35,23 @@ RUN apt-get install -y libmemcached-dev
 RUN curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
 RUN apt-get install -y nodejs
 
-# set python3.6 global
-RUN apt-get install -y python3-pip python3.6 python3.6-dev
-RUN python3.6 -m pip install --upgrade pip
-RUN rm /usr/bin/python; exit 0
-RUN rm /usr/bin/python3; exit 0
-RUN rm /usr/bin/pip; exit 0
-RUN rm /usr/bin/pip3; exit 0
-RUN ln -s /usr/bin/python3.6 /usr/bin/python
-RUN ln -s /usr/bin/python3.6 /usr/bin/python3
-RUN ln -s /usr/local/bin/pip3.6 /usr/bin/pip
-RUN ln -s /usr/local/bin/pip3.6 /usr/bin/pip3
 
-RUN apt-get autoremove -y && apt-get autoclean -y
+# set python3 global
+RUN apt-get install -y python3 python3-pip python3-setuptools python3-ldap python3-rados \
+    python3-dateutil python-simplejson
+RUN python3 -m pip install --upgrade pip && rm -r /root/.cache/pip
+RUN rm -f /usr/bin/python && ln -s /usr/bin/python3 /usr/bin/python && \
+    rm -f /usr/bin/pip && ln -s /usr/local/bin/pip3 /usr/bin/pip
+
+# install python packages
+COPY scripts /root/scripts
+RUN /root/scripts/pip_install.sh && rm -r /root/.cache/pip
 
 
 # scripts
 RUN rm -rf /etc/my_init.d/*
 COPY scripts/01_init.sh scripts/02_aliass.sh /etc/my_init.d/
-COPY scripts /root/scripts
 RUN mkdir -p /root/.ssh/
-
-# install python packages
-RUN . /root/scripts/pip_install.sh
-RUN rm -rf ~/.cache/pip
 
 # set up dtable development env
 COPY scripts/default /etc/nginx/sites-available/default
