@@ -1,21 +1,8 @@
 version: '3'
 services:
-  # log:
-  #   image: bobrik/syslog-ng
-  #   ports:
-  #     - 127.0.0.1:514:514
-  #   volumes:
-  #     - /opt/seafile_dev/conf/syslog-ng.conf:/etc/syslog-ng/syslog-ng.conf
-  #     - /var/log/syslog-ng:/var/log/syslog-ng
   db:
-    image: docker.seafile.top/seafile-dev/mariadb:10.3
+    image: docker.seafile.top/seafile-dev/mariadb:10.5
     container_name: seafile-mysql
-    #logging:
-    #  driver: "syslog"
-    #  options:
-    #    syslog-address: "tcp://127.0.0.1:514"
-    #    syslog-facility: daemon
-    #    tag: "{{.Name}}/{{.ID}}"
     volumes:
       - "/opt/mysql-data:/var/lib/mysql"
       - "/opt/seafile_dev/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d"
@@ -32,6 +19,15 @@ services:
     ports:
       - 11211:11211
 
+  # seafile-office-preview:
+  #   image: seafileltd/office-preview:latest
+  #   container_name: seafile-office-preview
+  #   ports:
+  #     - 8089:8089
+  #   command: bash start.sh
+  #   volumes:
+  #     - /root/data/office-preview:/shared:cached
+
   # uncomment the following to add search feature
   #es:
   #  image: elasticsearch:2.4.5
@@ -43,7 +39,7 @@ services:
   #    - 9300:9300
 
   pro:
-    image: docker.seafile.top/seafile-dev/seafile-pro-dev:8.0
+    image: docker.seafile.top/seafile-dev/seafile-pro-dev:9.0
 
     environment:
       - DOCKER_DEV=1
