@@ -12,7 +12,7 @@ function stop_server() {
 function set_env() {
     export CCNET_CONF_DIR=$CONF_PATH
     export SEAFILE_CONF_DIR=$CONF_PATH/seafile-data
-    export PYTHONPATH=$COMPILE_PATH:$CONF_PATH:$PYTHONPATH:/usr/lib/python3.6/dist-packages:/usr/lib/python3.6/site-packages:/usr/local/lib/python3.6/dist-packages:/usr/local/lib/python3.6/site-packages:/data/dev/seahub/thirdpart:/data/dev/pyes/pyes:/data/dev/seahub-extra::/data/dev/portable-python-libevent/libevent:/data/dev/seafobj:/data/dev/seahub/seahub/:/data/dev/
+    export PYTHONPATH=$COMPILE_PATH:$CONF_PATH:$PYTHONPATH:/usr/lib/python3.8/dist-packages:/usr/lib/python3.8/site-packages:/usr/local/lib/python3.8/dist-packages:/usr/local/lib/python3.8/site-packages:/data/dev/seahub/thirdpart:/data/dev/pyes/pyes:/data/dev/seahub-extra::/data/dev/portable-python-libevent/libevent:/data/dev/seafobj:/data/dev/seahub/seahub/:/data/dev/
     export SEAFES_DIR=/data/dev/seafes/
     export SEAHUB_DIR=/data/dev/seahub/
 }
@@ -67,14 +67,14 @@ function check_python_executable() {
         return 0
     fi
 
-    if which python3.6 2>/dev/null 1>&2; then
-        PYTHON=python3.6
-    elif which python36 2>/dev/null 1>&2; then
-        PYTHON=python36
+    if which python3.8 2>/dev/null 1>&2; then
+        PYTHON=python3.8
+    elif which python38 2>/dev/null 1>&2; then
+        PYTHON=python38
     else
         echo
-        echo "Can't find a python executable of version 3.6 or above in PATH"
-        echo "Install python 3.6+ before continue."
+        echo "Can't find a python executable of version 3.8 or above in PATH"
+        echo "Install python 3.8+ before continue."
         echo "Or if you installed it in a non-standard PATH, set the PYTHON enviroment varirable to it"
         echo
         exit 1
