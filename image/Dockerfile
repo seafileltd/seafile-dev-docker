@@ -1,6 +1,6 @@
 FROM phusion/baseimage:focal-1.0.0
 
-ENV UPDATE_AT=20190910 BRANCH=master COMPILE_PATH=/data/compiled SOURCE_PATH=/data/dev LOG_PATH=/data/logs CONF_PATH=/data/conf
+ENV UPDATE_AT=20211213 BRANCH=master COMPILE_PATH=/data/compiled SOURCE_PATH=/data/dev LOG_PATH=/data/logs CONF_PATH=/data/conf
 
 RUN rm -rf /etc/localtime && ln -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 
@@ -38,7 +38,7 @@ RUN apt-get install -y nodejs
 
 # set python3 global
 RUN apt-get install -y python3 python3-pip python3-setuptools python3-ldap python3-rados \
-    python3-dateutil python-simplejson
+    python3-dateutil python3-simplejson
 RUN python3 -m pip install --upgrade pip && rm -r /root/.cache/pip
 RUN rm -f /usr/bin/python && ln -s /usr/bin/python3 /usr/bin/python && \
     rm -f /usr/bin/pip && ln -s /usr/local/bin/pip3 /usr/bin/pip

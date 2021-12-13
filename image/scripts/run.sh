@@ -12,7 +12,7 @@ function stop_server() {
 function set_env() {
     export CCNET_CONF_DIR=$CONF_PATH
     export SEAFILE_CONF_DIR=$CONF_PATH/seafile-data
-    export PYTHONPATH=$COMPILE_PATH:$CONF_PATH:$PYTHONPATH:/usr/lib/python3.8/dist-packages:/usr/lib/python3.8/site-packages:/usr/local/lib/python3.8/dist-packages:/usr/local/lib/python3.8/site-packages:/data/dev/seahub/thirdpart:/data/dev/pyes/pyes:/data/dev/seahub-extra::/data/dev/portable-python-libevent/libevent:/data/dev/seafobj:/data/dev/seahub/seahub/:/data/dev/
+    export PYTHONPATH=$PYTHONPATH:$CONF_PATH:/usr/lib/python3.8/dist-packages:/usr/lib/python3.8/site-packages:/usr/local/lib/python3.8/dist-packages:/usr/local/lib/python3.8/site-packages:/data/dev/seahub/thirdpart:/data/dev/pyes/pyes:/data/dev/portable-python-libevent/libevent:/data/dev/seafobj:/data/dev/seahub/seahub/:/data/dev/
     export SEAFES_DIR=/data/dev/seafes/
     export SEAHUB_DIR=/data/dev/seahub/
 }
@@ -22,13 +22,13 @@ function start_server() {
 
     set_env
 
-    seaf-server -c $CONF_PATH -d $CONF_PATH/seafile-data -D all -f -l - &
+    seaf-server -c $CONF_PATH -d $CONF_PATH/seafile-data -D all -f -l - >> /data/logs/seafile.log 2>&1 &
     sleep 0.5
     cd /data/dev/seahub
     python manage.py runserver 0.0.0.0:8000 &
     cd ../seafevents
     sleep 0.5
-    python main.py --config-file $CONF_PATH/seafevents.conf &
+    python main.py --config-file $CONF_PATH/seafevents.conf >> /data/logs/seafevents.log 2>&1 &
     # Seafevents cannot start without sleep for a few seconds
     sleep 2
 }
@@ -139,6 +139,7 @@ function prepare_init() {
     mkdir -p $LOG_PATH
     mkdir -p $CONF_PATH
     mkdir $CONF_PATH/seafile-data
+    mkdir $CONF_PATH/seafile-data/library-template
 }
 
 function fetch() {
@@ -177,12 +178,6 @@ function fetch() {
         cd /data/dev/seahub && git pull && cd -
     fi
 
-    if [ ! -d "/data/dev/seahub-extra" ]; then
-        cd /data/dev && git clone git@github.com:seafileltd/seahub-extra.git
-    else
-        cd /data/dev/seahub-extra && git pull && cd -
-    fi
-
     if [ ! -d "/data/dev/seafevents" ]; then
         cd /data/dev && git clone git@github.com:seafileltd/seafevents.git
     else
@@ -217,15 +212,16 @@ if [ ! -f "$CONF_PATH/seahub_settings.py" ]; then
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'seahub',                     # Or path to database file if using sqlite3.
-        'USER': 'root',                       # Not used with sqlite3.
-        'PASSWORD': 'db_dev',                 # Not used with sqlite3.
-        'HOST': 'db',                         # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '3306',                       # Set to empty string for default. Not used with sqlite3.
+        'ENGINE': 'django.db.backends.mysql',  # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': 'seahub',                      # Or path to database file if using sqlite3.
+        'USER': 'root',                        # Not used with sqlite3.
+        'PASSWORD': 'db_dev',                  # Not used with sqlite3.
+        'HOST': 'db',                          # Set to empty string for localhost. Not used with sqlite3.
+        'PORT': '3306',                        # Set to empty string for default. Not used with sqlite3.
     }
 }
 
+SERVICE_URL = 'http://127.0.0.1:8000'
 FILE_SERVER_ROOT = 'http://127.0.0.1:8082'
 EOF
 fi
@@ -276,9 +272,6 @@ PASSWD = db_dev
 DB = ccnet
 CONNECTION_CHARSET = utf8
 CREATE_TABLES = true
-
-[General]
-SERVICE_URL = http://127.0.0.1:8000
 EOF
 
 

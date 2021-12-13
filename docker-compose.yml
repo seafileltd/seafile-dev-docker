@@ -1,7 +1,7 @@
 version: '3'
 services:
   db:
-    image: docker.seafile.top/seafile-dev/mariadb:10.5
+    image: docker.seafile.top/seafile-dev/mariadb:10.3
     container_name: seafile-mysql
     volumes:
       - "/opt/mysql-data:/var/lib/mysql"
@@ -30,13 +30,18 @@ services:
 
   # uncomment the following to add search feature
   #es:
-  #  image: elasticsearch:2.4.5
+  #  image: elasticsearch:6.8.20
   #  container_name: seafile-es
   #  volumes:
   #    - "/root/data/es-data:/usr/share/elasticsearch/data"
   #  ports:
   #    - 9200:9200
   #    - 9300:9300
+  #
+  #  environment:
+  #    - discovery.type=single-node
+  #    - bootstrap.memory_lock=true
+  #    - "ES_JAVA_OPTS=-Xms1g -Xmx1g"
 
   pro:
     image: docker.seafile.top/seafile-dev/seafile-pro-dev:9.0
@@ -46,7 +51,7 @@ services:
       - LOCAL_USER_ID=1000
       - IS_PRO_VERSION=1
       - LICENSE_DIR=/data/seaf-license
-      - PYTHONPATH=$COMPILE_PATH:/usr/lib/python3.6/dist-packages:/usr/lib/python3.6/site-packages:/usr/local/lib/python3.6/dist-packages:/usr/local/lib/python3.6/site-packages:/data/dev/seahub/thirdpart:/data/dev/pyes/pyes:/data/dev/portable-python-libevent/libevent:/data/dev/seafobj:/data/dev/seahub/seahub/:$CONF_PATH:$PYTHONPATH
+      - PYTHONPATH=$PYTHONPATH:$CONF_PATH:/usr/lib/python3.8/dist-packages:/usr/lib/python3.8/site-packages:/usr/local/lib/python3.8/dist-packages:/usr/local/lib/python3.8/site-packages:/data/dev/seahub/thirdpart:/data/dev/pyes/pyes:/data/dev/portable-python-libevent/libevent:/data/dev/seafobj:/data/dev/seahub/seahub/:/data/dev/
       - PATH=/data/scripts:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
       - SEAHUB_LOG_DIR=/data/logs
 
