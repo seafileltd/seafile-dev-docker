@@ -1,6 +1,6 @@
-FROM phusion/baseimage:focal-1.0.0
+FROM phusion/baseimage:focal-1.2.0
 
-ENV UPDATE_AT=20190910 BRANCH=master COMPILE_PATH=/data/compiled SOURCE_PATH=/data/dev LOG_PATH=/data/logs CONF_PATH=/data/conf
+ENV UPDATE_AT=202212 BRANCH=master COMPILE_PATH=/data/compiled SOURCE_PATH=/data/dev LOG_PATH=/data/logs CONF_PATH=/data/conf
 
 RUN rm -rf /etc/localtime && ln -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 
@@ -12,7 +12,6 @@ RUN apt-get install -y ssh libevent-dev libcurl4-openssl-dev libglib2.0-dev \
   libjansson-dev valac libfuse-dev cmake re2c flex sqlite3 htop \
   git libssl-dev libldap2-dev libonig-dev
 
-
 # development tools
 RUN apt-get install -y vim vim-scripts wget
 RUN apt-get install -y cmake gcc
@@ -23,21 +22,15 @@ RUN apt-get install -y curl sudo telnet netcat unzip netbase ca-certificates \
   apt-transport-https build-essential libxslt1-dev libffi-dev libpcre3-dev \
   libz-dev xz-utils nginx
 
-# build-in office and file search
-RUN apt-get install -y pkg-config poppler-utils
-# RUN apt-get install -y libreoffice libreoffice-script-provider-python
-# RUN apt-get install -y ttf-wqy-microhei ttf-wqy-zenhei xfonts-wqy
-
 # libmemcached
 RUN apt-get install -y libmemcached-dev
 
 # set up the repository for nodejs 10 and npm
-RUN curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
+RUN curl -sL https://deb.nodesource.com/setup_16.x | sudo -E bash -
 RUN apt-get install -y nodejs
 
-
 # set python3 global
-RUN apt-get install -y python3 python3-pip python3-setuptools python3-ldap python3-rados \
+RUN apt-get install -y python3.8 python3-pip python3-setuptools python3-ldap python3-rados \
     python3-dateutil python-simplejson
 RUN python3 -m pip install --upgrade pip && rm -r /root/.cache/pip
 RUN rm -f /usr/bin/python && ln -s /usr/bin/python3 /usr/bin/python && \
@@ -46,7 +39,6 @@ RUN rm -f /usr/bin/python && ln -s /usr/bin/python3 /usr/bin/python && \
 # install python packages
 COPY scripts /root/scripts
 RUN /root/scripts/pip_install.sh && rm -r /root/.cache/pip
-
 
 # scripts
 RUN rm -rf /etc/my_init.d/*
