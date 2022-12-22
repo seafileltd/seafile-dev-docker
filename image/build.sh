@@ -1,2 +1,2 @@
-image_name=docker.seafile.top/seafile-dev/seafile-pro-dev:8.0
+image_name=docker.seafile.top/seafile-dev/seafile-pro-dev:master
 docker build -t $image_name .
