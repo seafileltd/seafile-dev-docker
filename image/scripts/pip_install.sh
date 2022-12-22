@@ -34,6 +34,15 @@ pip3 install -i https://mirrors.aliyun.com/pypi/simple \
 
 pip3 install -i https://mirrors.aliyun.com/pypi/simple mock nose exam splinter pytest pytest-django
 
-pip3 install -i https://mirrors.aliyun.com/pypi/simple python-cas djangosaml2 cffi sqlalchemy pymysql pillow \
-  pycryptodome configparser pylibmc django-pylibmc \
-  elasticsearch==5.5.0 elasticsearch-dsl==5.4.0
+pip3 install -i https://mirrors.aliyun.com/pypi/simple \
+    sqlalchemy==1.4.* \
+    pymysql==1.0.* \
+    configparser==5.3.* \
+    pylibmc==1.6.* \
+    django-pylibmc==0.6.* \
+    redis==4.3.* \
+    elasticsearch==5.5.0 \
+    elasticsearch-dsl==5.4.0 \
+    reportlab==3.4.* \
+    pdfrw==0.4 \
+    oss2==2.16.*
