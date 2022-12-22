@@ -22,13 +22,13 @@ function start_server() {
 
     set_env
 
-    seaf-server -c $CONF_PATH -d $CONF_PATH/seafile-data -D all -f -l - &
+    seaf-server -c $CONF_PATH -d $CONF_PATH/seafile-data -D all -f -l - >> /data/logs/seafile.log 2>&1 &
     sleep 0.5
     cd /data/dev/seahub
     python manage.py runserver 0.0.0.0:8000 &
     cd ../seafevents
     sleep 0.5
-    python main.py --config-file $CONF_PATH/seafevents.conf &
+    python main.py --config-file $CONF_PATH/seafevents.conf >> /data/logs/seafevents.log 2>&1 &
     # Seafevents cannot start without sleep for a few seconds
     sleep 2
 }
@@ -139,6 +139,7 @@ function prepare_init() {
     mkdir -p $LOG_PATH
     mkdir -p $CONF_PATH
     mkdir $CONF_PATH/seafile-data
+    mkdir $CONF_PATH/seafile-data/library-template
 }
 
 function fetch() {
@@ -220,6 +221,7 @@ DATABASES = {
     }
 }
 
+SERVICE_URL = 'http://127.0.0.1:8000'
 FILE_SERVER_ROOT = 'http://127.0.0.1:8082'
 EOF
 fi
@@ -271,8 +273,6 @@ DB = ccnet
 CONNECTION_CHARSET = utf8
 CREATE_TABLES = true
 
-[General]
-SERVICE_URL = http://127.0.0.1:8000
 EOF
 
 

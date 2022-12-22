@@ -31,7 +31,7 @@ RUN apt-get install -y nodejs
 
 # set python3 global
 RUN apt-get install -y python3.8 python3-pip python3-setuptools python3-ldap python3-rados \
-    python3-dateutil python-simplejson
+    python3-dateutil python3-simplejson
 RUN python3 -m pip install --upgrade pip && rm -r /root/.cache/pip
 RUN rm -f /usr/bin/python && ln -s /usr/bin/python3 /usr/bin/python && \
     rm -f /usr/bin/pip && ln -s /usr/local/bin/pip3 /usr/bin/pip

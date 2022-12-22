@@ -1,7 +1,7 @@
 version: '3'
 services:
   db:
-    image: docker.seafile.top/seafile-dev/mariadb:10.5
+    image: mariadb:10.5
     container_name: seafile-mysql
     volumes:
       - "/opt/mysql-data:/var/lib/mysql"
@@ -30,7 +30,7 @@ services:
 
   # uncomment the following to add search feature
   #es:
-  #  image: elasticsearch:2.4.5
+  #  image: elasticsearch:7.16.2
   #  container_name: seafile-es
   #  volumes:
   #    - "/root/data/es-data:/usr/share/elasticsearch/data"
