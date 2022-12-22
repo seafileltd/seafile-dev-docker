@@ -18,7 +18,7 @@ RUN apt-get install -y vim vim-scripts wget
 RUN apt-get install -y cmake gcc
 
 RUN apt-get install -y autoconf automake mysql-client
-RUN apt-get install -y librados-dev libxml2-dev
+RUN apt-get install -y librados-dev libxml2-dev libjwt-dev
 RUN apt-get install -y curl sudo telnet netcat unzip netbase ca-certificates \
   apt-transport-https build-essential libxslt1-dev libffi-dev libpcre3-dev \
   libz-dev xz-utils nginx
