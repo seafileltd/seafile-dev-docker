@@ -7,23 +7,25 @@ RUN rm -rf /etc/localtime && ln -s /usr/share/zoneinfo/Asia/Shanghai /etc/localt
 RUN apt-get update && apt-get upgrade -y
 
 # See https://manual.seafile.com/develop/env.html
-RUN apt-get install -y ssh libevent-dev libcurl4-openssl-dev libglib2.0-dev \
-  uuid-dev intltool libsqlite3-dev libmysqlclient-dev libarchive-dev libtool \
-  libjansson-dev valac libfuse-dev cmake re2c flex sqlite3 htop \
-  git libssl-dev libldap2-dev libonig-dev
+RUN apt-get install -y ssh libevent-dev libcurl4-openssl-dev libglib2.0-dev
+RUN apt-get install -y uuid-dev intltool libsqlite3-dev libarchive-dev libtool \
+    libjansson-dev valac libfuse-dev cmake re2c flex sqlite3 htop \
+    git libssl-dev libldap2-dev libonig-dev
 
 # development tools
-RUN apt-get install -y vim vim-scripts wget
-RUN apt-get install -y cmake gcc
+RUN apt-get install -y vim vim-scripts wget \
+    cmake gcc
 
-RUN apt-get install -y autoconf automake mysql-client
+RUN apt-get install -y autoconf automake libmysqlclient-dev mysql-client
 RUN apt-get install -y librados-dev libxml2-dev libjwt-dev
 RUN apt-get install -y curl sudo telnet netcat unzip netbase ca-certificates \
-  apt-transport-https build-essential libxslt1-dev libffi-dev libpcre3-dev \
-  libz-dev xz-utils nginx
+    apt-transport-https build-essential libxslt1-dev libffi-dev libpcre3-dev \
+    libz-dev xz-utils nginx \
+    libmemcached-dev \
+    zlib1g-dev
 
-# libmemcached
-RUN apt-get install -y libmemcached-dev
+RUN cd /tmp && wget https://github.com/redis/hiredis/archive/refs/tags/v1.1.0.tar.gz && tar -zxvf v1.1.0.tar.gz && \
+    cd hiredis-1.1.0 && make && make install && cd / && rm -r /tmp/hiredis-1.1.0 && rm /tmp/v1.1.0.tar.gz
 
 # set up the repository for nodejs 10 and npm
 RUN curl -sL https://deb.nodesource.com/setup_16.x | sudo -E bash -
@@ -41,12 +43,14 @@ COPY scripts /root/scripts
 RUN /root/scripts/pip_install.sh && rm -r /root/.cache/pip
 
 # scripts
-RUN rm -rf /etc/my_init.d/*
+RUN rm -rf /etc/my_init.d/* && mkdir -p /root/.ssh/
 COPY scripts/01_init.sh scripts/02_aliass.sh /etc/my_init.d/
-RUN mkdir -p /root/.ssh/
 
 # set up dtable development env
 COPY scripts/default /etc/nginx/sites-available/default
+
+# libs
+RUN ln -s /usr/local/lib/libhiredis.* /usr/lib/
 
 # https://github.com/phusion/baseimage-docker/blob/master/README_ZH_cn_.md
 CMD ["/sbin/my_init", "--", "/root/scripts/enterpoint.sh"]
