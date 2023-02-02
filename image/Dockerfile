@@ -25,7 +25,8 @@ RUN apt-get install -y curl sudo telnet netcat unzip netbase ca-certificates \
     zlib1g-dev
 
 RUN cd /tmp && wget https://github.com/redis/hiredis/archive/refs/tags/v1.1.0.tar.gz && tar -zxvf v1.1.0.tar.gz && \
-    cd hiredis-1.1.0 && make && make install && cd / && rm -r /tmp/hiredis-1.1.0 && rm /tmp/v1.1.0.tar.gz
+    cd hiredis-1.1.0 && make && make install && cd / && rm -r /tmp/hiredis-1.1.0 && rm /tmp/v1.1.0.tar.gz && \
+    ln -s /usr/local/lib/libhiredis.* /usr/lib/
 
 # set up the repository for nodejs 10 and npm
 RUN curl -sL https://deb.nodesource.com/setup_16.x | sudo -E bash -
@@ -48,9 +49,6 @@ COPY scripts/01_init.sh scripts/02_aliass.sh /etc/my_init.d/
 
 # set up dtable development env
 COPY scripts/default /etc/nginx/sites-available/default
-
-# libs
-RUN ln -s /usr/local/lib/libhiredis.* /usr/lib/
 
 # https://github.com/phusion/baseimage-docker/blob/master/README_ZH_cn_.md
 CMD ["/sbin/my_init", "--", "/root/scripts/enterpoint.sh"]

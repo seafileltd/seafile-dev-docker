@@ -41,8 +41,8 @@ pip3 install -i https://mirrors.aliyun.com/pypi/simple \
     pylibmc==1.6.* \
     django-pylibmc==0.6.* \
     redis==4.3.* \
-    elasticsearch==5.5.0 \
-    elasticsearch-dsl==5.4.0 \
+    elasticsearch==7.16.1 \
+    elasticsearch-dsl==7.4.0 \
     reportlab==3.4.* \
     pdfrw==0.4 \
     oss2==2.16.*
