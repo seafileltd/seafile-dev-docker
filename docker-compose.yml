@@ -1,7 +1,7 @@
 version: '3'
 services:
   db:
-    image: mariadb:10.5
+    image: mariadb:10.6
     container_name: seafile-mysql
     volumes:
       - "/opt/mysql-data:/var/lib/mysql"
@@ -14,7 +14,7 @@ services:
       - lower_case_table_names=1
 
   memcached:
-    image: memcached:1.5.6
+    image: memcached:1.6.18
     container_name: seafile-memcached
     ports:
       - 11211:11211
