@@ -5,7 +5,7 @@
 # pip install -r test-requirements.txt
 
 pip3 install -i https://mirrors.aliyun.com/pypi/simple \
-    Django==3.2.* \
+    Django==4.2.* \
     django-statici18n==2.3.* \
     django_webpack_loader==1.7.* \
     django_picklefield==3.1 \
