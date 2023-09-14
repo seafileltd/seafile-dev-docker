@@ -1,7 +1,7 @@
 version: '3'
 services:
   db:
-    image: mariadb:10.6
+    image: mariadb:10.11
     container_name: seafile-mysql
     volumes:
       - "/opt/mysql-data:/var/lib/mysql"
