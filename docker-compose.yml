@@ -62,6 +62,7 @@ services:
      - 8001:8001
      - 8080:8080
      - 8082:8082
+     - 7070:7070
     depends_on:
       - db
       - memcached
