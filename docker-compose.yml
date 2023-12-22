@@ -12,6 +12,7 @@ services:
       - MYSQL_ROOT_PASSWORD=db_dev
       - MYSQL_LOG_CONSOLE=true
       - lower_case_table_names=1
+      - MARIADB_AUTO_UPGRADE=1
 
   memcached:
     image: memcached:1.6.18
