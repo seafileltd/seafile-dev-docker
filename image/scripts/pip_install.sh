@@ -10,7 +10,7 @@ pip3 install -i https://mirrors.aliyun.com/pypi/simple \
     django_webpack_loader==1.7.* \
     django_picklefield==3.1 \
     django_formtools==2.4 \
-    django_simple_captcha==0.5.* \
+    django_simple_captcha==0.6.* \
     djangosaml2==1.5.* \
     djangorestframework==3.14.* \
     python-dateutil==2.8.* \
@@ -27,15 +27,16 @@ pip3 install -i https://mirrors.aliyun.com/pypi/simple \
     pillow==10.0.* \
     chardet==5.1.* \
     cffi==1.15.1 \
-    captcha==0.4 \
+    captcha==0.5.* \
     openpyxl==3.0.* \
     Markdown==3.4.* \
-    bleach==5.0.*
+    bleach==5.0.* \
+    python-ldap==3.4.*
 
-pip3 install -i https://mirrors.aliyun.com/pypi/simple mock nose exam splinter pytest pytest-django
+pip3 install -i https://mirrors.aliyun.com/pypi/simple mock nose exam splinter pytest==7.4.4 pytest-django
 
 pip3 install -i https://mirrors.aliyun.com/pypi/simple \
-    sqlalchemy==1.4.* \
+    sqlalchemy==2.0.18 \
     pymysql==1.0.* \
     configparser==5.3.* \
     pylibmc==1.6.* \
