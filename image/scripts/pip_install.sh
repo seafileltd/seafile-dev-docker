@@ -24,7 +24,7 @@ pip3 install -i https://mirrors.aliyun.com/pypi/simple \
     gunicorn==20.1.* \
     mysqlclient==2.1.* \
     qrcode==7.3.* \
-    pillow==10.0.* \
+    pillow==10.2.* \
     chardet==5.1.* \
     cffi==1.15.1 \
     captcha==0.5.* \
