@@ -4,7 +4,7 @@
 # pip install -r requirements.txt
 # pip install -r test-requirements.txt
 
-pip3 install -i https://mirrors.aliyun.com/pypi/simple \
+pip3 install -i https://pypi.tuna.tsinghua.edu.cn/simple/ \
     Django==4.2.* \
     django-statici18n==2.3.* \
     django_webpack_loader==1.7.* \
@@ -35,9 +35,9 @@ pip3 install -i https://mirrors.aliyun.com/pypi/simple \
     pypinyin==0.50.* \
     PyMuPDF==1.24.*
 
-pip3 install -i https://mirrors.aliyun.com/pypi/simple mock nose exam splinter pytest==7.4.4 pytest-django
+pip3 install -i https://pypi.tuna.tsinghua.edu.cn/simple/ mock nose exam splinter pytest==7.4.4 pytest-django
 
-pip3 install -i https://mirrors.aliyun.com/pypi/simple \
+pip3 install -i https://pypi.tuna.tsinghua.edu.cn/simple/ \
     sqlalchemy==2.0.18 \
     pymysql==1.0.* \
     configparser==5.3.* \
