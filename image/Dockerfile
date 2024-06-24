@@ -1,6 +1,6 @@
 FROM phusion/baseimage:focal-1.2.0
 
-ENV UPDATE_AT=202212 BRANCH=master COMPILE_PATH=/data/compiled SOURCE_PATH=/data/dev LOG_PATH=/data/logs CONF_PATH=/data/conf
+ENV UPDATE_AT=202406 BRANCH=master COMPILE_PATH=/data/compiled SOURCE_PATH=/data/dev LOG_PATH=/data/logs CONF_PATH=/data/conf
 
 RUN rm -rf /etc/localtime && ln -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 
@@ -10,7 +10,7 @@ RUN apt-get update && apt-get upgrade -y
 RUN apt-get install -y ssh libevent-dev libcurl4-openssl-dev libglib2.0-dev
 RUN apt-get install -y uuid-dev intltool libsqlite3-dev libarchive-dev libtool \
     libjansson-dev valac libfuse-dev cmake re2c flex sqlite3 htop \
-    git libssl-dev libldap2-dev libonig-dev
+    git libssl-dev libldap2-dev libonig-dev libargon2-dev
 
 # development tools
 RUN apt-get install -y vim vim-scripts wget \

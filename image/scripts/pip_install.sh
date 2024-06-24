@@ -15,10 +15,10 @@ pip3 install -i https://mirrors.aliyun.com/pypi/simple \
     djangorestframework==3.14.* \
     python-dateutil==2.8.* \
     pyjwt==2.6.* \
-    pycryptodome==3.16.* \
+    pycryptodome==3.20.* \
     python-cas==1.6.* \
     pysaml2==7.2.* \
-    requests==2.28.* \
+    requests==2.31.* \
     requests_oauthlib==1.3.* \
     future==0.18.* \
     gunicorn==20.1.* \
@@ -31,7 +31,8 @@ pip3 install -i https://mirrors.aliyun.com/pypi/simple \
     openpyxl==3.0.* \
     Markdown==3.4.* \
     bleach==5.0.* \
-    python-ldap==3.4.*
+    python-ldap==3.4.* \
+    pypinyin==0.50.*
 
 pip3 install -i https://mirrors.aliyun.com/pypi/simple mock nose exam splinter pytest==7.4.4 pytest-django
 
