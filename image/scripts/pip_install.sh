@@ -32,7 +32,8 @@ pip3 install -i https://mirrors.aliyun.com/pypi/simple \
     Markdown==3.4.* \
     bleach==5.0.* \
     python-ldap==3.4.* \
-    pypinyin==0.50.*
+    pypinyin==0.50.* \
+    PyMuPDF==1.24.*
 
 pip3 install -i https://mirrors.aliyun.com/pypi/simple mock nose exam splinter pytest==7.4.4 pytest-django
 
