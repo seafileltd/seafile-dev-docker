@@ -4,7 +4,10 @@ ENV UPDATE_AT=202406 BRANCH=master COMPILE_PATH=/data/compiled SOURCE_PATH=/data
 
 RUN rm -rf /etc/localtime && ln -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 
-RUN apt-get update && apt-get upgrade -y
+RUN apt-get update --fix-missing && apt-get upgrade -y
+RUN apt-get install -y software-properties-common
+
+RUN add-apt-repository -y ppa:longsleep/golang-backports
 
 # See https://manual.seafile.com/develop/env.html
 RUN apt-get install -y ssh libevent-dev libcurl4-openssl-dev libglib2.0-dev
@@ -28,14 +31,18 @@ RUN cd /tmp && wget https://github.com/redis/hiredis/archive/refs/tags/v1.1.0.ta
     cd hiredis-1.1.0 && make && make install && cd / && rm -r /tmp/hiredis-1.1.0 && rm /tmp/v1.1.0.tar.gz && \
     ln -s /usr/local/lib/libhiredis.* /usr/lib/
 
-# set up the repository for nodejs 10 and npm
+# set up golang
+RUN apt install golang-go -y
+RUN go env -w GOPROXY=https://goproxy.cn
+
+# set up the repository for nodejs 16 and npm
 RUN curl -sL https://deb.nodesource.com/setup_16.x | sudo -E bash -
 RUN apt-get install -y nodejs
 
 # set python3 global
 RUN apt-get install -y python3.8 python3-pip python3-setuptools python3-ldap python3-rados \
     python3-dateutil python3-simplejson
-RUN python3 -m pip install --upgrade pip && rm -r /root/.cache/pip
+RUN python3 -m pip install --upgrade pip -i https://pypi.tuna.tsinghua.edu.cn/simple/ && rm -r /root/.cache/pip
 RUN rm -f /usr/bin/python && ln -s /usr/bin/python3 /usr/bin/python && \
     rm -f /usr/bin/pip && ln -s /usr/local/bin/pip3 /usr/bin/pip
 
