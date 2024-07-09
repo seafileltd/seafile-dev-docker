@@ -7,6 +7,7 @@ function stop_server() {
     pkill -9 -f runserver
     pkill -9 -f main
     pkill -9 -f "node dist/src/index.js"
+    pkill -9 -f "seaf-md-server"
 }
 
 function set_env() {
@@ -24,6 +25,11 @@ function start_server() {
 
     seaf-server -c $CONF_PATH -d $CONF_PATH/seafile-data -D all -f -l - >> /data/logs/seafile.log 2>&1 &
     sleep 0.5
+
+    cd /data/dev/seaf-md-server
+    ./seaf-md-server -c $CONF_PATH/seaf-md-server.conf &
+    sleep 0.5
+
     cd /data/dev/seahub
     python manage.py runserver 0.0.0.0:8000 &
     cd ../seafevents
@@ -140,6 +146,7 @@ function prepare_init() {
     mkdir -p $CONF_PATH
     mkdir $CONF_PATH/seafile-data
     mkdir $CONF_PATH/seafile-data/library-template
+    mkdir -p $CONF_PATH/md-server-data
 }
 
 function fetch() {
@@ -189,6 +196,18 @@ function fetch() {
     else
         cd /data/dev/seafes && git pull && cd -
     fi
+
+    if [ ! -d "/data/dev/sdoc-server" ]; then
+        cd /data/dev && git clone git@github.com:seafileltd/sdoc-server.git
+    else
+        cd /data/dev/sdoc-server && git pull && cd -
+    fi
+
+    if [ ! -d "/data/dev/seaf-md-server" ]; then
+        cd /data/dev && git clone git@github.com:seafileltd/seaf-md-server.git
+    else
+        cd /data/dev/seaf-md-server && git pull && cd -
+    fi
 }
 
 #https://dev.seafile.com/seahub/f/a4124dd839484598b63c/
@@ -203,6 +222,9 @@ function compile() {
     install_compiled
 
     cd seafile-pro-server && ./autogen.sh && ./configure --disable-fuse --prefix=$COMPILE_PATH && make && make install && ldconfig && cd ..
+    install_compiled
+
+    cd seaf-md-server && go build -trimpath && cd ..
     install_compiled
 
 
@@ -223,6 +245,11 @@ DATABASES = {
 
 SERVICE_URL = 'http://127.0.0.1:8000'
 FILE_SERVER_ROOT = 'http://127.0.0.1:8082'
+
+ENABLE_METADATA_MANAGEMENT = True
+METADATA_SERVER_SECRET_KEY = 'e37347d67d53ca9bae69d3f842655da3'
+METADATA_SERVER_URL = 'http://127.0.0.1:8088'
+
 EOF
 fi
 
@@ -290,6 +317,24 @@ EOF
 
     cd
 fi
+
+if [ ! -f "$CONF_PATH/seaf-md-server.conf" ]; then
+    cd $CONF_PATH && cat > seaf-md-server.conf  <<EOF
+[general]
+host = 0.0.0.0
+port = 8088
+log_dir = /data/logs
+log_level = info
+
+[server]
+private_key = e37347d67d53ca9bae69d3f842655da3
+
+[storage]
+data_dir = $CONF_PATH/md-server-data
+
+EOF
+fi
+
 }
 
 
