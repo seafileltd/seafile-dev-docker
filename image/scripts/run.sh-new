@@ -27,7 +27,7 @@ function start_server() {
 
     mkdir -p /opt/seafile-data
     ln -sf /data/conf/seafile-data/* /opt/seafile-data/
-    seaf-server -c $CONF_PATH -d /opt/seafile-data -D all -f -l - >> /data/logs/seafile.log 2>&1 &
+    seaf-server -c $CONF_PATH -d /opt/seafile-data -D all -L /data -f -l - >> /data/logs/seafile.log 2>&1 &
     sleep 0.5
 
     cd /data/dev/seaf-md-server

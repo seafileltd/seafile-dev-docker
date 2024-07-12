@@ -23,7 +23,7 @@ function start_server() {
 
     set_env
 
-    seaf-server -c $CONF_PATH -d $CONF_PATH/seafile-data -D all -f -l - >> /data/logs/seafile.log 2>&1 &
+    seaf-server -c $CONF_PATH -d $CONF_PATH/seafile-data -D all -L /data -f -l - >> /data/logs/seafile.log 2>&1 &
     sleep 0.5
 
     cd /data/dev/seaf-md-server
