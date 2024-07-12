@@ -20,6 +20,13 @@ services:
     ports:
       - 11211:11211
 
+  redis:
+    image: redis:5.0.7
+    container_name: seafile-redis
+    # command: redis-server /etc/redis/redis.conf
+    ports:
+      - 6379:6379
+
   # seafile-office-preview:
   #   image: seafileltd/office-preview:latest
   #   container_name: seafile-office-preview
@@ -68,4 +75,5 @@ services:
     depends_on:
       - db
       - memcached
+      - redis
     # - es
