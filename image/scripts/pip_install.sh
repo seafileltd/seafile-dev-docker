@@ -33,7 +33,8 @@ pip3 install -i https://pypi.tuna.tsinghua.edu.cn/simple/ \
     bleach==5.0.* \
     python-ldap==3.4.* \
     pypinyin==0.50.* \
-    PyMuPDF==1.24.*
+    PyMuPDF==1.24.* \
+    dnspython==2.6.*
 
 pip3 install -i https://pypi.tuna.tsinghua.edu.cn/simple/ mock nose exam splinter pytest==7.4.4 pytest-django
 
