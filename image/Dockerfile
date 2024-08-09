@@ -35,8 +35,8 @@ RUN cd /tmp && wget https://github.com/redis/hiredis/archive/refs/tags/v1.1.0.ta
 RUN apt install golang-go -y
 RUN go env -w GOPROXY=https://goproxy.cn
 
-# set up the repository for nodejs 16 and npm
-RUN curl -sL https://deb.nodesource.com/setup_16.x | sudo -E bash -
+# set up the repository for nodejs 20 and npm
+RUN curl -sL https://deb.nodesource.com/setup_20.x | sudo -E bash -
 RUN apt-get install -y nodejs
 
 # set python3 global
