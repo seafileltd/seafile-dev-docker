@@ -49,6 +49,7 @@ RUN rm -f /usr/bin/python && ln -s /usr/bin/python3 /usr/bin/python && \
 # install python packages
 COPY scripts /root/scripts
 RUN /root/scripts/pip_install.sh && rm -r /root/.cache/pip
+RUN /root/scripts/transifex-install.sh
 
 # scripts
 RUN rm -rf /etc/my_init.d/* && mkdir -p /root/.ssh/

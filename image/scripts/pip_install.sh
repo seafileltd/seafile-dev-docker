@@ -49,5 +49,3 @@ pip3 install -i https://pypi.tuna.tsinghua.edu.cn/simple/ \
     reportlab==3.4.* \
     pdfrw==0.4 \
     oss2==2.16.*
-
-curl -o- https://raw.githubusercontent.com/transifex/cli/master/install.sh | bash
