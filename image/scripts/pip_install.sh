@@ -36,7 +36,7 @@ pip3 install -i https://pypi.tuna.tsinghua.edu.cn/simple/ \
     PyMuPDF==1.24.* \
     dnspython==2.6.*
 
-pip3 install -i https://pypi.tuna.tsinghua.edu.cn/simple/ mock nose exam splinter pytest==7.4.4 pytest-django
+pip3 install -i https://pypi.tuna.tsinghua.edu.cn/simple/ mock nose exam splinter pytest==7.4.4 pytest-django fabric3
 
 pip3 install -i https://pypi.tuna.tsinghua.edu.cn/simple/ \
     sqlalchemy==2.0.18 \
@@ -49,3 +49,5 @@ pip3 install -i https://pypi.tuna.tsinghua.edu.cn/simple/ \
     reportlab==3.4.* \
     pdfrw==0.4 \
     oss2==2.16.*
+
+curl -o- https://raw.githubusercontent.com/transifex/cli/master/install.sh | bash
