@@ -280,6 +280,9 @@ enabled = true
 
 [AUDIT]
 enabled = true
+
+[REDIS]
+server=redis
 EOF
 fi
 
