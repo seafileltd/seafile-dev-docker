@@ -18,6 +18,8 @@ function set_env() {
     export SEAFES_DIR=/data/dev/seafes/
     export SEAHUB_DIR=/data/dev/seahub/
     export SEAFILE_RPC_PIPE_PATH=/opt/seafile-data
+    export JWT_PRIVATE_KEY=bc187b9a-2f34-43cf-bea3-73c87e7375eb 
+    export SITE_ROOT=/
 }
 
 function start_server() {
