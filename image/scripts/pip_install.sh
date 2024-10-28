@@ -34,18 +34,27 @@ pip3 install -i https://pypi.tuna.tsinghua.edu.cn/simple/ \
     python-ldap==3.4.* \
     pypinyin==0.50.* \
     PyMuPDF==1.24.* \
-    dnspython==2.6.*
+    dnspython==2.6.* \
+    pillow-heif==0.18.*
 
 pip3 install -i https://pypi.tuna.tsinghua.edu.cn/simple/ mock nose exam splinter pytest==7.4.4 pytest-django fabric3
 
 pip3 install -i https://pypi.tuna.tsinghua.edu.cn/simple/ \
-    sqlalchemy==2.0.18 \
-    pymysql==1.0.* \
+    sqlalchemy==2.0.* \
+    pymysql==1.1.* \
     configparser==5.3.* \
     pylibmc==1.6.* \
     django-pylibmc==0.6.* \
-    redis==4.3.* \
+    redis==5.0.* \
     elasticsearch==8.5.2 \
     reportlab==3.4.* \
     pdfrw==0.4 \
     oss2==2.16.*
+    pyjwt==2.9.* \
+    gevent==24.2.* \
+    Flask==3.0.* \
+    apscheduler==3.10.* \
+    pyexiftool==0.4.* \
+    numpy==1.26.*
+
+

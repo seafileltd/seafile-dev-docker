@@ -1,6 +1,17 @@
-FROM phusion/baseimage:focal-1.2.0
+FROM ubuntu:24.04
 
-ENV UPDATE_AT=202406 BRANCH=master COMPILE_PATH=/data/compiled SOURCE_PATH=/data/dev LOG_PATH=/data/logs CONF_PATH=/data/conf
+# https://github.com/phusion/baseimage-docker
+COPY base_scripts /bd_build
+RUN /bd_build/prepare.sh && \
+    /bd_build/system_services.sh && \
+    /bd_build/utilities.sh && \
+    /bd_build/cleanup.sh
+ENV DEBIAN_FRONTEND="teletype" \
+    LANG="en_US.UTF-8" \
+    LANGUAGE="en_US:en" \
+    LC_ALL="en_US.UTF-8"
+
+ENV UPDATE_AT=202410 BRANCH=master COMPILE_PATH=/data/compiled SOURCE_PATH=/data/dev LOG_PATH=/data/logs CONF_PATH=/data/conf
 
 RUN rm -rf /etc/localtime && ln -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 
@@ -21,7 +32,7 @@ RUN apt-get install -y vim vim-scripts wget \
 
 RUN apt-get install -y autoconf automake libmysqlclient-dev mysql-client
 RUN apt-get install -y librados-dev libxml2-dev libjwt-dev
-RUN apt-get install -y curl sudo telnet netcat unzip netbase ca-certificates \
+RUN apt-get install -y curl sudo telnet netcat-traditional unzip netbase ca-certificates \
     apt-transport-https build-essential libxslt1-dev libffi-dev libpcre3-dev \
     libz-dev xz-utils nginx \
     libmemcached-dev \
@@ -40,11 +51,10 @@ RUN curl -sL https://deb.nodesource.com/setup_20.x | sudo -E bash -
 RUN apt-get install -y nodejs
 
 # set python3 global
-RUN apt-get install -y python3.8 python3-pip python3-setuptools python3-ldap python3-rados \
-    python3-dateutil python3-simplejson
-RUN python3 -m pip install --upgrade pip -i https://pypi.tuna.tsinghua.edu.cn/simple/ && rm -r /root/.cache/pip
-RUN rm -f /usr/bin/python && ln -s /usr/bin/python3 /usr/bin/python && \
-    rm -f /usr/bin/pip && ln -s /usr/local/bin/pip3 /usr/bin/pip
+RUN apt-get install -y python3 python3-pip python3-dev python3-setuptools python3-ldap python3-rados \
+    python3-dateutil python3-simplejson && \
+    rm /usr/lib/python3.12/EXTERNALLY-MANAGED && \
+    rm -f /usr/bin/python && ln -s /usr/bin/python3 /usr/bin/python
 
 # install python packages
 COPY scripts /root/scripts
