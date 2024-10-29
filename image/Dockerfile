@@ -58,7 +58,7 @@ RUN apt-get install -y python3 python3-pip python3-dev python3-setuptools python
 
 # install python packages
 COPY scripts /root/scripts
-RUN /root/scripts/pip_install.sh && rm -r /root/.cache/pip
+RUN /root/scripts/pip_install.sh
 RUN /root/scripts/transifex-install.sh
 
 # scripts
