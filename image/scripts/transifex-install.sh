@@ -89,7 +89,8 @@
     echo -e "** Installing CLI from $URL\n"
     if tar --version | grep -q 'gnu'
     then
-        curl -L "$URL" | tar xz --skip-old-files
+        # curl -L "$URL" | tar xz --skip-old-files
+        tar xz --skip-old-files -f /root/scripts/tx-linux-amd64.tar.gz
     else
         curl -L "$URL" | tar kxz
     fi

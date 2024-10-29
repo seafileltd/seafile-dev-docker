@@ -58,8 +58,8 @@ RUN apt-get install -y python3 python3-pip python3-dev python3-setuptools python
 
 # install python packages
 COPY scripts /root/scripts
-RUN /root/scripts/pip_install.sh
 RUN /root/scripts/transifex-install.sh
+RUN /root/scripts/pip_install.sh
 
 # scripts
 RUN rm -rf /etc/my_init.d/* && mkdir -p /root/.ssh/
