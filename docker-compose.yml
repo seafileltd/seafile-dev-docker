@@ -1,7 +1,7 @@
 version: '3'
 services:
   db:
-    image: mariadb:10.11
+    image: docker.seafile.top/seafileltd/mariadb:10.11
     container_name: seafile-mysql
     volumes:
       - "/opt/mysql-data:/var/lib/mysql"
@@ -15,13 +15,13 @@ services:
       - MARIADB_AUTO_UPGRADE=1
 
   memcached:
-    image: memcached:1.6.18
+    image: docker.seafile.top/seafileltd/memcached:1.6.18
     container_name: seafile-memcached
     ports:
       - 11211:11211
 
   redis:
-    image: redis:5.0.7
+    image: docker.seafile.top/seafileltd/redis:5.0.7
     container_name: seafile-redis
     # command: redis-server /etc/redis/redis.conf
     ports:
