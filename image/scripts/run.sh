@@ -70,35 +70,14 @@ function start_dtable {
     export DTABLE_SERVER_CONFIG=config/config.json && node dist/src/index.js >> index.log &
 }
 
-function check_python_executable() {
-    if [[ "$PYTHON" != "" && -x $PYTHON ]]; then
-        return 0
-    fi
-
-    if which python3.8 2>/dev/null 1>&2; then
-        PYTHON=python3.8
-    elif which python38 2>/dev/null 1>&2; then
-        PYTHON=python38
-    else
-        echo
-        echo "Can't find a python executable of version 3.8 or above in PATH"
-        echo "Install python 3.8+ before continue."
-        echo "Or if you installed it in a non-standard PATH, set the PYTHON enviroment varirable to it"
-        echo
-        exit 1
-    fi
-}
-
 function run_python_wth_env() {
     set_env
-    check_python_executable
 
     $PYTHON ${*:2}
 }
 
 function run_pytest_wth_env() {
     set_env
-    check_python_executable
 
     py.test ${*:2}
 }
