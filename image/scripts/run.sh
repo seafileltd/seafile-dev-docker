@@ -18,6 +18,7 @@ function set_env() {
     export SEAHUB_DIR=/data/dev/seahub/
     export JWT_PRIVATE_KEY=bc187b9a-2f34-43cf-bea3-73c87e7375eb  
     export SITE_ROOT=/
+    export SEAFILE_MYSQL_DB_CCNET_DB_NAME=ccnet
 }
 
 function start_server() {
