@@ -46,7 +46,11 @@ pip3 install --no-cache-dir -i https://pypi.tuna.tsinghua.edu.cn/simple/ \
     Flask==3.0.* \
     apscheduler==3.10.* \
     pyexiftool==0.4.* \
-    numpy==1.26.*
+    beautifulsoup4==4.12.3 \
+    markdown-it-py==3.0.0 \
+    mdit_py_plugins==0.4.2 \
+    linkify-it-py==2.0.3 \
+    scikit-learn==1.3.*
 
 pip3 install --no-cache-dir -i https://pypi.tuna.tsinghua.edu.cn/simple/ \
     configparser==5.3.* \
