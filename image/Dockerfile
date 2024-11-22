@@ -57,8 +57,10 @@ RUN apt-get install -y python3 python3-pip python3-dev python3-setuptools python
     rm -f /usr/bin/python && ln -s /usr/bin/python3 /usr/bin/python
 
 # install python packages
+ENV LD_LIBRARY_PATH=/usr/local/lib:/usr/lib
 COPY scripts /root/scripts
 RUN /root/scripts/transifex-install.sh
+RUN /root/scripts/gettext-install.sh
 RUN /root/scripts/pip_install.sh
 
 # scripts
