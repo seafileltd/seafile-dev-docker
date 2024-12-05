@@ -33,7 +33,6 @@ pip3 install --no-cache-dir -i https://pypi.tuna.tsinghua.edu.cn/simple/ \
     bleach==5.0.* \
     python-ldap==3.4.* \
     pypinyin==0.52.* \
-    PyMuPDF==1.24.* \
     dnspython==2.6.* \
     pillow-heif==0.18.*
 
