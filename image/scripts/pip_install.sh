@@ -4,7 +4,7 @@
 # pip install -r requirements.txt
 # pip install -r test-requirements.txt
 
-pip3 install --no-cache-dir -i https://pypi.tuna.tsinghua.edu.cn/simple/ \
+pip3 install --no-cache-dir \
     Django==4.2.* \
     django-statici18n==2.5.* \
     django_webpack_loader==1.7.* \
@@ -36,7 +36,7 @@ pip3 install --no-cache-dir -i https://pypi.tuna.tsinghua.edu.cn/simple/ \
     dnspython==2.6.* \
     pillow-heif==0.18.*
 
-pip3 install --no-cache-dir -i https://pypi.tuna.tsinghua.edu.cn/simple/ \
+pip3 install --no-cache-dir \
     SQLAlchemy==2.0.* \
     redis==5.0.* \
     pyjwt==2.9.* \
@@ -51,7 +51,7 @@ pip3 install --no-cache-dir -i https://pypi.tuna.tsinghua.edu.cn/simple/ \
     linkify-it-py==2.0.3 \
     scikit-learn==1.3.*
 
-pip3 install --no-cache-dir -i https://pypi.tuna.tsinghua.edu.cn/simple/ \
+pip3 install --no-cache-dir \
     configparser==5.3.* \
     pylibmc==1.6.* \
     django-pylibmc==0.6.* \
