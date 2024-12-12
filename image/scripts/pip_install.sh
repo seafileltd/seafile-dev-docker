@@ -65,3 +65,9 @@ pip3 install --no-cache-dir \
     pytest==7.4.4 \
     pytest-django \
     fabric3
+
+
+sleep 1
+
+# fix fabric3
+sed -i 's/^from collections import Mapping/from collections.abc import Mapping/' /usr/local/lib/python3.12/dist-packages/fabric/main.py
