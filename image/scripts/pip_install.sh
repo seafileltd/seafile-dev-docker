@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # cd /tmp
 # wget https://raw.githubusercontent.com/haiwen/seahub/${BRANCH}/requirements.txt
 # wget https://raw.githubusercontent.com/haiwen/seahub/${BRANCH}/test-requirements.txt
@@ -36,6 +38,10 @@ pip3 install --no-cache-dir \
     dnspython==2.6.* \
     pillow-heif==0.18.*
 
+if [[ $? != 0 ]]; then
+    exit 1
+fi
+
 pip3 install --no-cache-dir \
     SQLAlchemy==2.0.* \
     redis==5.0.* \
@@ -51,6 +57,10 @@ pip3 install --no-cache-dir \
     linkify-it-py==2.0.3 \
     scikit-learn==1.3.*
 
+if [[ $? != 0 ]]; then
+    exit 1
+fi
+
 pip3 install --no-cache-dir \
     configparser==5.3.* \
     pylibmc==1.6.* \
@@ -59,13 +69,15 @@ pip3 install --no-cache-dir \
     pdfrw==0.4 \
     oss2==2.16.* \
     mock \
-    nose \
     exam \
     splinter \
     pytest==7.4.4 \
     pytest-django \
     fabric3
 
+if [[ $? != 0 ]]; then
+    exit 1
+fi
 
 sleep 1
 
