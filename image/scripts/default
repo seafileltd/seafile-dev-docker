@@ -62,13 +62,13 @@ server {
 
          # used for view/edit office file via Office Online Server
          client_max_body_size 0;
-         add_header Access-Control-Allow-Origin *;
-                 if ($request_method = 'OPTIONS') {
+         if ($request_method = 'OPTIONS') {
             add_header Access-Control-Allow-Origin *;
             add_header Access-Control-Allow-Methods GET,POST,PUT,DELETE,OPTIONS;
             add_header Access-Control-Allow-Headers "deviceType,token, authorization, content-type,Content-Range,Content-Disposition";
             return 204;
          }
+         add_header Access-Control-Allow-Origin *;
          access_log      /var/log/nginx/seahub.access.log;
          error_log       /var/log/nginx/seahub.error.log;
      }
