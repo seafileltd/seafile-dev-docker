@@ -53,8 +53,7 @@ RUN apt-get install -y nodejs
 # set python3 global
 RUN apt-get install -y python3 python3-pip python3-dev python3-setuptools python3-ldap python3-rados \
     python3-dateutil python3-simplejson && \
-    rm /usr/lib/python3.12/EXTERNALLY-MANAGED && \
-    rm -f /usr/bin/python && ln -s /usr/bin/python3 /usr/bin/python
+    rm /usr/lib/python3.12/EXTERNALLY-MANAGED
 
 # install python packages
 ENV LD_LIBRARY_PATH=/usr/local/lib:/usr/lib
