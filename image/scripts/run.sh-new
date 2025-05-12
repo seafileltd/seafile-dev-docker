@@ -23,6 +23,7 @@ function set_env() {
     export SEAFILE_MYSQL_DB_CCNET_DB_NAME=ccnet
     export SEAFILE_MYSQL_DB_SEAFILE_DB_NAME=seafile
     export SEAFILE_MYSQL_DB_SEAHUB_DB_NAME=seahub
+    export SEAFILE_RPC_PIPE_PATH=/opt/seafile-data
 }
 
 function start_server() {
@@ -31,8 +32,7 @@ function start_server() {
     set_env
 
     mkdir -p /opt/seafile-data
-    ln -sf /data/conf/seafile-data/* /opt/seafile-data/
-    seaf-server -c $CONF_PATH -d /opt/seafile-data -D all -L /data -f -l - >> /data/logs/seafile.log 2>&1 &
+    seaf-server -c $CONF_PATH -d /data/conf/seafile-data -p /opt/seafile-data -D all -L /data -f -l - >> /data/logs/seafile.log 2>&1 &
     sleep 0.5
 
     cd /data/dev/seaf-md-server
