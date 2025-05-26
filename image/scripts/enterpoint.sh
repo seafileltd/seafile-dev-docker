@@ -9,6 +9,8 @@ function cleanup(){
 
 trap cleanup SIGINT SIGTERM
 
+/usr/sbin/nginx &
+
 while [ 1 ]
 do
   sleep 60 & wait $!
