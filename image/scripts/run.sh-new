@@ -24,6 +24,7 @@ function set_env() {
     export SEAFILE_MYSQL_DB_SEAFILE_DB_NAME=seafile
     export SEAFILE_MYSQL_DB_SEAHUB_DB_NAME=seahub
     export SEAFILE_RPC_PIPE_PATH=/opt/seafile-data
+    export IS_PRO_VERSION=true
 }
 
 function start_server() {

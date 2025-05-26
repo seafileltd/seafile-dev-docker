@@ -21,6 +21,7 @@ function set_env() {
     export SEAFILE_MYSQL_DB_CCNET_DB_NAME=ccnet
     export SEAFILE_MYSQL_DB_SEAFILE_DB_NAME=seafile
     export SEAFILE_MYSQL_DB_SEAHUB_DB_NAME=seahub
+    export IS_PRO_VERSION=true
 }
 
 function start_server() {
