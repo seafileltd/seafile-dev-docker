@@ -5,9 +5,9 @@
 function stop_server() {
     pkill -9 -f seaf-server
     pkill -9 -f runserver
-    pkill -9 -f main
-    pkill -9 -f "node dist/src/index.js"
-    pkill -9 -f "seaf-md-server"
+    pkill -9 -f main.py
+    pkill -9 -f www.js
+    pkill -9 -f seaf-md-server
 }
 
 function set_env() {
@@ -16,18 +16,30 @@ function set_env() {
     export PYTHONPATH=$COMPILE_PATH:$CONF_PATH:$PYTHONPATH:/usr/lib/python3.12/dist-packages:/usr/lib/python3.12/site-packages:/usr/local/lib/python3.12/dist-packages:/usr/local/lib/python3.12/site-packages:/data/dev/seahub/thirdpart:/data/dev/pyes/pyes:/data/dev/portable-python-libevent/libevent:/data/dev/seafobj:/data/dev/seahub/seahub/:/data/dev/
     export SEAFES_DIR=/data/dev/seafes/
     export SEAHUB_DIR=/data/dev/seahub/
-    export JWT_PRIVATE_KEY=bc187b9a-2f34-43cf-bea3-73c87e7375eb  
+
+    export IS_PRO_VERSION=true
+    export JWT_PRIVATE_KEY=bc187b9a-2f34-43cf-bea3-73c87e7375eb
     export SITE_ROOT=/
+    export SEAFILE_MYSQL_DB_HOST=db
+    export SEAFILE_MYSQL_DB_PORT=3306
+    export SEAFILE_MYSQL_DB_USER=root
+    export SEAFILE_MYSQL_DB_PASSWORD=db_dev
     export SEAFILE_MYSQL_DB_CCNET_DB_NAME=ccnet
     export SEAFILE_MYSQL_DB_SEAFILE_DB_NAME=seafile
     export SEAFILE_MYSQL_DB_SEAHUB_DB_NAME=seahub
-    export IS_PRO_VERSION=true
+    export REDIS_HOST=redis
+    export REDIS_PORT=6379
+}
+
+function pip_update() {
+    pip3 install -r /data/dev/seahub/requirements.txt -i https://mirrors.aliyun.com/pypi/simple >/dev/null 2>&1
+    pip3 install -r /data/dev/seafevents/requirements.txt -i https://mirrors.aliyun.com/pypi/simple >/dev/null 2>&1
 }
 
 function start_server() {
     stop_server
-
     set_env
+    pip_update
 
     seaf-server -c $CONF_PATH -d $CONF_PATH/seafile-data -D all -L /data -f -l - >> /data/logs/seafile.log 2>&1 &
     sleep 0.5
@@ -43,35 +55,17 @@ function start_server() {
     python main.py --config-file $CONF_PATH/seafevents.conf >> /data/logs/seafevents.log 2>&1 &
     # Seafevents cannot start without sleep for a few seconds
     sleep 2
+
+    cd /data/dev/sdoc-server
+    npm run build
+    node --max-old-space-size=4096 ./dist/_bin/www.js &
+    sleep 0.5
 }
 
 function start_frontend {
     set_env
     cd /data/dev/seahub/frontend
     npm run dev &
-}
-
-function start_dtable_web {
-    stop_server
-    set_env
-
-    seaf-server -c $CONF_PATH -d $CONF_PATH/seafile-data -D all -f -l - &
-    sleep 0.5
-    cd /data/dev/dtable-web/
-    python manage.py runserver 0.0.0.0:8001 &
-}
-
-function start_dtable_frontend {
-    set_env
-    cd /data/dev/dtable-web/frontend
-    npm run dev &
-}
-
-function start_dtable {
-    set_env
-    service nginx restart
-    cd /data/dev/dtable-server/
-    export DTABLE_SERVER_CONFIG=config/config.json && node dist/src/index.js >> index.log &
 }
 
 function run_python_wth_env() {
@@ -189,6 +183,12 @@ function fetch() {
         cd /data/dev/sdoc-server && git pull && cd -
     fi
 
+    if [ ! -d "/data/dev/seadoc-converter" ]; then
+        cd /data/dev && git clone git@github.com:haiwen/seadoc-converter.git
+    else
+        cd /data/dev/seadoc-converter && git pull && cd -
+    fi
+
     if [ ! -d "/data/dev/seaf-md-server" ]; then
         cd /data/dev && git clone git@github.com:seafileltd/seaf-md-server.git
     else
@@ -216,18 +216,7 @@ function compile() {
 
 if [ ! -f "$CONF_PATH/seahub_settings.py" ]; then
     cd $CONF_PATH && cat > seahub_settings.py <<EOF
-# DEBUG = True
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'seahub',                     # Or path to database file if using sqlite3.
-        'USER': 'root',                       # Not used with sqlite3.
-        'PASSWORD': 'db_dev',                 # Not used with sqlite3.
-        'HOST': 'db',                         # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '3306',                       # Set to empty string for default. Not used with sqlite3.
-    }
-}
+DEBUG = True
 
 SERVICE_URL = 'http://127.0.0.1:8000'
 FILE_SERVER_ROOT = 'http://127.0.0.1:8082'
@@ -242,13 +231,6 @@ fi
 
 if [ ! -f "$CONF_PATH/seafevents.conf" ]; then
     cd $CONF_PATH && cat > seafevents.conf  <<EOF
-[DATABASE]
-type = mysql
-username = root
-password = db_dev
-name = seahub
-host = db
-
 [INDEX FILES]
 enabled = false
 interval = 5m
@@ -265,46 +247,16 @@ enabled = true
 [AUDIT]
 enabled = true
 
-[REDIS]
-server=redis
 EOF
 fi
 
 
 if [ ! -f "$CONF_PATH/seafile-data/seafile.conf" ]; then
-
-    cd $CONF_PATH && cat > seafile.ini  <<EOF
-$CONF_PATH/seafile-data
-EOF
-
-
-    cd $CONF_PATH && cat > ccnet.conf  <<EOF
-[Database]
-ENGINE = mysql
-HOST = db
-PORT = 3306
-USER = root
-PASSWD = db_dev
-DB = ccnet
-CONNECTION_CHARSET = utf8
-CREATE_TABLES = true
-
-EOF
-
-
     cd $CONF_PATH/seafile-data && cat > seafile.conf  <<EOF
-[database]
-type = mysql
-host = db
-port = 3306
-user = root
-password = db_dev
-db_name = seafile
-connection_charset = utf8
-create_tables = true
-EOF
+[fileserver]
+port = 8082
 
-    cd
+EOF
 fi
 
 if [ ! -f "$CONF_PATH/seaf-md-server.conf" ]; then
@@ -352,14 +304,8 @@ case $1 in
     "start-frontend" )
         start_frontend
         ;;
-    "start-dtable-web" )
-        start_dtable_web
-        ;;
-    "start-dtable-frontend" )
-        start_dtable_frontend
-        ;;
-    "start-dtable" )
-        start_dtable
+    "stop")
+        stop_server
         ;;
     * )
         start_server

@@ -1,4 +1,3 @@
-version: '3'
 services:
   db:
     image: docker.seafile.top/seafileltd/mariadb:10.11
@@ -14,53 +13,19 @@ services:
       - lower_case_table_names=1
       - MARIADB_AUTO_UPGRADE=1
 
-  memcached:
-    image: docker.seafile.top/seafileltd/memcached:1.6.18
-    container_name: seafile-memcached
-    ports:
-      - 11211:11211
-
   redis:
-    image: docker.seafile.top/seafileltd/redis:5.0.7
+    image: docker.seafile.top/seafileltd/redis:8.0
     container_name: seafile-redis
-    # command: redis-server /etc/redis/redis.conf
     ports:
       - 6379:6379
 
-  # seafile-office-preview:
-  #   image: seafileltd/office-preview:latest
-  #   container_name: seafile-office-preview
-  #   ports:
-  #     - 8089:8089
-  #   command: bash start.sh
-  #   volumes:
-  #     - /root/data/office-preview:/shared:cached
-
-  # uncomment the following to add search feature
-  #es:
-  #  image: elasticsearch:7.16.2
-  #  container_name: seafile-es
-  #  volumes:
-  #    - "/root/data/es-data:/usr/share/elasticsearch/data"
-  #  ports:
-  #    - 9200:9200
-  #    - 9300:9300
-
   pro:
     image: docker.seafile.top/seafile-dev/seafile-pro-dev:master
-
-    environment:
-      - DOCKER_DEV=1
-      - LOCAL_USER_ID=1000
-      - IS_PRO_VERSION=1
-      - LICENSE_DIR=/data/seaf-license
-      - PYTHONPATH=$COMPILE_PATH:/usr/lib/python3.8/dist-packages:/usr/lib/python3.8/site-packages:/usr/local/lib/python3.8/dist-packages:/usr/local/lib/python3.8/site-packages:/data/dev/seahub/thirdpart:/data/dev/pyes/pyes:/data/dev/portable-python-libevent/libevent:/data/dev/seafobj:/data/dev/seahub/seahub/:$CONF_PATH:$PYTHONPATH
-      - PATH=/data/scripts:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-      - SEAHUB_LOG_DIR=/data/logs
-
     container_name: seafile-pro-dev
     volumes:
       - /root/data:/data:cached
+    environment:
+      - IS_PRO_VERSION=true
     ports:
      - 80:80
      - 3000:3000
@@ -74,6 +39,4 @@ services:
      - 7070:7070
     depends_on:
       - db
-      - memcached
       - redis
-    # - es
