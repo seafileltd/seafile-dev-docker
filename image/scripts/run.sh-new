@@ -22,6 +22,7 @@ function set_env() {
     export IS_PRO_VERSION=true
     export JWT_PRIVATE_KEY=bc187b9a-2f34-43cf-bea3-73c87e7375eb
     export SITE_ROOT=/
+
     export SEAFILE_MYSQL_DB_HOST=db
     export SEAFILE_MYSQL_DB_PORT=3306
     export SEAFILE_MYSQL_DB_USER=root
@@ -29,8 +30,16 @@ function set_env() {
     export SEAFILE_MYSQL_DB_CCNET_DB_NAME=ccnet
     export SEAFILE_MYSQL_DB_SEAFILE_DB_NAME=seafile
     export SEAFILE_MYSQL_DB_SEAHUB_DB_NAME=seahub
+
     export REDIS_HOST=redis
     export REDIS_PORT=6379
+
+    export MD_LOG_DIR=/data/logs
+    export MD_LOG_LEVEL=debug
+    export MD_CHECK_UPDATE_INTERVAL=30m
+    export MD_MAX_CACHE_SIZE=1GB
+    export MD_STORAGE_TYPE=file
+    export MD_DATA_DIR=/data/conf/md-server-data
 }
 
 function pip_update() {
@@ -48,7 +57,7 @@ function start_server() {
     sleep 0.5
 
     cd /data/dev/seaf-md-server
-    ./seaf-md-server -c $CONF_PATH/seaf-md-server.conf &
+    ./seaf-md-server &
     sleep 0.5
 
     cd /data/dev/seahub
@@ -266,25 +275,6 @@ port = 8082
 
 EOF
 fi
-
-
-if [ ! -f "$CONF_PATH/seaf-md-server.conf" ]; then
-    cd $CONF_PATH && cat > seaf-md-server.conf  <<EOF
-[general]
-host = 0.0.0.0
-port = 8088
-log_dir = /data/logs
-log_level = info
-
-[server]
-private_key = e37347d67d53ca9bae69d3f842655da3
-
-[storage]
-data_dir = $CONF_PATH/md-server-data
-
-EOF
-fi
-}
 
 
 case $1 in
