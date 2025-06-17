@@ -275,7 +275,7 @@ port = 8082
 
 EOF
 fi
-
+}
 
 case $1 in
     "start" )
