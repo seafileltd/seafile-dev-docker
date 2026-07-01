@@ -11,7 +11,7 @@ ENV DEBIAN_FRONTEND="teletype" \
     LANGUAGE="en_US:en" \
     LC_ALL="en_US.UTF-8"
 
-ENV UPDATE_AT=202410 BRANCH=master COMPILE_PATH=/data/compiled SOURCE_PATH=/data/dev LOG_PATH=/data/logs CONF_PATH=/data/conf
+ENV UPDATE_AT=202607 BRANCH=master COMPILE_PATH=/data/compiled SOURCE_PATH=/data/dev LOG_PATH=/data/logs CONF_PATH=/data/conf
 
 RUN rm -rf /etc/localtime && ln -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 
@@ -65,6 +65,8 @@ RUN /root/scripts/pip_install.sh
 # scripts
 RUN rm -rf /etc/my_init.d/* && mkdir -p /root/.ssh/
 COPY scripts/01_init.sh scripts/02_aliass.sh /etc/my_init.d/
+RUN sed -i '$a\export PATH=/data/scripts:$PATH' ~/.bashrc && \
+    sed -i '$a\source /root/scripts/run.sh set-env' ~/.bashrc
 
 # set up dtable development env
 COPY scripts/default /etc/nginx/sites-available/default
