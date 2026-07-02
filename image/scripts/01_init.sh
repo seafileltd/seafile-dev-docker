@@ -37,6 +37,4 @@ if [[ ! -e /data/scripts ]]; then
     chmod u+x /data/scripts/*.sh
 fi
 
-export PATH=/data/scripts:/root/scripts:$PATH
-
 local_migrate

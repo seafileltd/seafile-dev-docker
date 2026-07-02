@@ -269,12 +269,14 @@ enabled = true
 EOF
 fi
 
-if [ ! -f "$CONF_PATH/seafile.conf" ]; then
-    cd $CONF_PATH && cat > seafile.conf  <<EOF
+if [ ! -f "$CONF_PATH/seafile-data/seafile.conf" ]; then
+    cd $CONF_PATH/seafile-data && cat > seafile.conf  <<EOF
 [fileserver]
 port = 8082
 
 EOF
+
+cp $CONF_PATH/seafile-data/seafile.conf $CONF_PATH/seafile.conf
 fi
 }
 
