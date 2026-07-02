@@ -19,6 +19,7 @@ function set_env() {
     export SEAFES_DIR=/data/dev/seafes/
     export SEAHUB_DIR=/data/dev/seahub/
     export SEAFILE_RPC_PIPE_PATH=/opt/seafile-data
+    export SEAHUB_LOG_DIR=/data/logs
 
     export IS_PRO_VERSION=true
     export JWT_PRIVATE_KEY=bc187b9a-2f34-43cf-bea3-73c87e7375eb
@@ -57,9 +58,9 @@ function start_server() {
     seaf-server -c $CONF_PATH -d /data/conf/seafile-data -p /opt/seafile-data -D all -L /data -f -l - >> /data/logs/seafile.log 2>&1 &
     sleep 0.5
 
-    cd /data/dev/seaf-md-server
-    ./seaf-md-server &
-    sleep 0.5
+    # cd /data/dev/seaf-md-server
+    # ./seaf-md-server &
+    # sleep 0.5
 
     cd /data/dev/seahub
     python manage.py runserver 0.0.0.0:8000 &
@@ -70,10 +71,10 @@ function start_server() {
     # Seafevents cannot start without sleep for a few seconds
     sleep 2
 
-    cd /data/dev/sdoc-server
-    npm run build
-    node --max-old-space-size=4096 ./dist/_bin/www.js &
-    sleep 0.5
+    # cd /data/dev/sdoc-server
+    # npm run build
+    # node --max-old-space-size=4096 ./dist/_bin/www.js &
+    # sleep 0.5
 
 }
 
@@ -222,8 +223,8 @@ function compile() {
     cd libevhtp/ && cmake -DCMAKE_INSTALL_PREFIX:PATH=$COMPILE_PATH -DEVHTP_DISABLE_SSL=ON -DEVHTP_BUILD_SHARED=OFF . && make && make install && ldconfig && cd ..
     install_compiled
 
-    cd seaf-md-server && go build -trimpath && cd ..
-    install_compiled
+    # cd seaf-md-server && go build -trimpath && cd ..
+    # install_compiled
 
     cd /tmp/libsearpc && ./autogen.sh && ./configure --prefix=$COMPILE_PATH && make && make install && ldconfig && cd ..
     install_compiled
